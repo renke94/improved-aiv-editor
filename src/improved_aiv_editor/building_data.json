@@ -1,0 +1,1073 @@
+{
+  "buildings": [
+    {
+      "id": 0,
+      "name": "Shrub Garden",
+      "name_de": "Kleiner Garten",
+      "category": "good_stuff",
+      "kind": "building",
+      "width": 2,
+      "height": 2,
+      "thumbnail": "ShrubGarden.png"
+    },
+    {
+      "id": 1,
+      "name": "Engineer With Oil",
+      "name_de": "Baumeister mit Öl",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "Engineer.png"
+    },
+    {
+      "id": 2,
+      "name": "Mangonel",
+      "name_de": "Mange",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "Mangonel.png"
+    },
+    {
+      "id": 3,
+      "name": "Ballista",
+      "name_de": "Balliste",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "Ballista.png"
+    },
+    {
+      "id": 4,
+      "name": "Trebuchet",
+      "name_de": "Tribock",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "Trebuchet.png"
+    },
+    {
+      "id": 5,
+      "name": "Fire Ballista",
+      "name_de": "Feuerballiste",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "FireBallista.png"
+    },
+    {
+      "id": 6,
+      "name": "European Archer",
+      "name_de": "Bogenschütze",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "EuroArcher.png"
+    },
+    {
+      "id": 7,
+      "name": "Crossbowman",
+      "name_de": "Armbrustschütze",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "EuroCrossbowman.png"
+    },
+    {
+      "id": 8,
+      "name": "Spearman",
+      "name_de": "Lanzenträger",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "EuroSpearman.png"
+    },
+    {
+      "id": 9,
+      "name": "Pikeman",
+      "name_de": "Pikenier",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "EuroPikeman.png"
+    },
+    {
+      "id": 10,
+      "name": "Maceman",
+      "name_de": "Streitkolbenkämpfer",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "EuroMaceman.png"
+    },
+    {
+      "id": 11,
+      "name": "European Swordsman",
+      "name_de": "Schwertkämpfer",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "EuroSwordsman.png"
+    },
+    {
+      "id": 12,
+      "name": "Knight",
+      "name_de": "Ritter",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "EuroKnight.png"
+    },
+    {
+      "id": 13,
+      "name": "Slave",
+      "name_de": "Sklave",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "ArabSlave.png"
+    },
+    {
+      "id": 14,
+      "name": "Slinger",
+      "name_de": "Schleuderschütze",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "ArabSlinger.png"
+    },
+    {
+      "id": 15,
+      "name": "Assassin",
+      "name_de": "Assassine",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "ArabAssassin.png"
+    },
+    {
+      "id": 16,
+      "name": "Arabian Archer",
+      "name_de": "Arabischer Bogenschütze",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "ArabArcher.png"
+    },
+    {
+      "id": 17,
+      "name": "Horse Archer",
+      "name_de": "Berittener Bogenschütze",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "ArabHorseArcher.png"
+    },
+    {
+      "id": 18,
+      "name": "Arabian Swordsman",
+      "name_de": "Arabischer Schwertkämpfer",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "ArabSwordsman.png"
+    },
+    {
+      "id": 19,
+      "name": "Fire Thrower",
+      "name_de": "Feuerwerfer",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "ArabFireThrower.png"
+    },
+    {
+      "id": 20,
+      "name": "Brazier",
+      "name_de": "Kohlenpfanne",
+      "category": "units",
+      "kind": "unit",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "Brazier.png"
+    },
+    {
+      "id": 21,
+      "name": "Flag",
+      "name_de": "Flagge",
+      "category": "town",
+      "kind": "building",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "Flag1.png"
+    },
+    {
+      "id": 25,
+      "name": "Stone Wall",
+      "name_de": "Hohe Steinmauer",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "StoneWall.png"
+    },
+    {
+      "id": 26,
+      "name": "Crenulated Wall",
+      "name_de": "Hohe Zinne",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "CrenulatedWall.png"
+    },
+    {
+      "id": 35,
+      "name": "Low Crenulated Wall",
+      "name_de": "Niedrige Zinne",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "CrenulatedWall.png"
+    },
+    {
+      "id": 46,
+      "name": "Low Wall",
+      "name_de": "Niedrige Mauer",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "LowWall.png"
+    },
+    {
+      "id": 50,
+      "name": "Fletcher's Workshop",
+      "name_de": "Pfeilmacher",
+      "category": "weapons",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 1,
+      "thumbnail": "FletchersWorkshop.png"
+    },
+    {
+      "id": 51,
+      "name": "Woodcutter's Hut",
+      "name_de": "Holzfällerhütte",
+      "category": "industry",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "workers": 1,
+      "thumbnail": "WoodcuttersHut.png"
+    },
+    {
+      "id": 52,
+      "name": "Stockpile",
+      "name_de": "Vorratslager",
+      "category": "town",
+      "kind": "building",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "Stockpile.png"
+    },
+    {
+      "id": 54,
+      "name": "Hovel",
+      "name_de": "Hütte",
+      "category": "town",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "housing": 8,
+      "thumbnail": "Hovel.png"
+    },
+    {
+      "id": 55,
+      "name": "Ox Tether",
+      "name_de": "Ochsenjoch",
+      "category": "industry",
+      "kind": "building",
+      "width": 2,
+      "height": 2,
+      "workers": 1,
+      "thumbnail": "OxTether.png"
+    },
+    {
+      "id": 56,
+      "name": "Quarry",
+      "name_de": "Steinbruch",
+      "category": "industry",
+      "kind": "building",
+      "width": 6,
+      "height": 6,
+      "workers": 3,
+      "thumbnail": "Quarry.png"
+    },
+    {
+      "id": 61,
+      "name": "Keep",
+      "name_de": "Bergfried",
+      "category": "castle",
+      "kind": "building",
+      "width": 12,
+      "height": 15,
+      "housing": 10,
+      "thumbnail": null,
+      "special_shape": [
+        {"x": 0, "y": 0, "w": 7, "h": 7},
+        {"x": 7, "y": 2, "w": 5, "h": 5},
+        {"x": 0, "y": 8, "w": 7, "h": 7},
+        {"x": 0, "y": 7, "w": 5, "h": 1},
+        {"x": 5, "y": 7, "w": 2, "h": 1}
+      ]
+    },
+    {
+      "id": 65,
+      "name": "Stables",
+      "name_de": "Stallungen",
+      "category": "weapons",
+      "kind": "building",
+      "width": 6,
+      "height": 6,
+      "thumbnail": "Stables.png"
+    },
+    {
+      "id": 70,
+      "name": "Wheat Farm",
+      "name_de": "Weizenfarm",
+      "category": "food",
+      "kind": "building",
+      "width": 9,
+      "height": 9,
+      "workers": 1,
+      "thumbnail": "WheatFarm.png"
+    },
+    {
+      "id": 71,
+      "name": "Hops Farm",
+      "name_de": "Hopfenfarm",
+      "category": "food",
+      "kind": "building",
+      "width": 9,
+      "height": 9,
+      "workers": 1,
+      "thumbnail": "HopsFarm.png"
+    },
+    {
+      "id": 72,
+      "name": "Apple Orchard",
+      "name_de": "Apfelplantage",
+      "category": "food",
+      "kind": "building",
+      "width": 10,
+      "height": 10,
+      "workers": 1,
+      "thumbnail": "AppleOrchard.png"
+    },
+    {
+      "id": 73,
+      "name": "Dairy Farm",
+      "name_de": "Käserei",
+      "category": "food",
+      "kind": "building",
+      "width": 10,
+      "height": 10,
+      "workers": 1,
+      "thumbnail": "DairyFarm.png"
+    },
+    {
+      "id": 74,
+      "name": "Mill",
+      "name_de": "Windmühle",
+      "category": "food",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "workers": 3,
+      "thumbnail": "Mill.png"
+    },
+    {
+      "id": 75,
+      "name": "Bakery",
+      "name_de": "Bäckerei",
+      "category": "industry",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 1,
+      "thumbnail": "Bakery.png"
+    },
+    {
+      "id": 76,
+      "name": "Brewery",
+      "name_de": "Brauerei",
+      "category": "industry",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 1,
+      "thumbnail": "Brewery.png"
+    },
+    {
+      "id": 77,
+      "name": "Marketplace",
+      "name_de": "Marktplatz",
+      "category": "industry",
+      "kind": "building",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "Marketplace.png"
+    },
+    {
+      "id": 78,
+      "name": "Hunter's Post",
+      "name_de": "Jägerstand",
+      "category": "food",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "workers": 1,
+      "thumbnail": "HuntersPost.png"
+    },
+    {
+      "id": 79,
+      "name": "Bedouin Stockade",
+      "name_de": "Beduinische-Palisade",
+      "category": "weapons",
+      "kind": "building",
+      "width": 10,
+      "height": 10,
+      "thumbnail": null
+    },
+    {
+      "id": 80,
+      "name": "Granary",
+      "name_de": "Kornspeicher",
+      "category": "food",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "thumbnail": "Granary.png"
+    },
+    {
+      "id": 81,
+      "name": "Armory",
+      "name_de": "Waffenkammer",
+      "category": "weapons",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "thumbnail": "Armory.png"
+    },
+    {
+      "id": 82,
+      "name": "Poleturner's Workshop",
+      "name_de": "Stangenwaffen-Drechsler",
+      "category": "weapons",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 1,
+      "thumbnail": "PoleturnersWorkshop.png"
+    },
+    {
+      "id": 83,
+      "name": "Blacksmith's Workshop",
+      "name_de": "Schmied",
+      "category": "weapons",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 1,
+      "thumbnail": "BlacksmithsWorkshop.png"
+    },
+    {
+      "id": 84,
+      "name": "Armorer's Workshop",
+      "name_de": "Rüstungsschmied",
+      "category": "weapons",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 1,
+      "thumbnail": "ArmorersWorkshop.png"
+    },
+    {
+      "id": 85,
+      "name": "Tanner's Workshop",
+      "name_de": "Gerber",
+      "category": "weapons",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 1,
+      "thumbnail": "TannersWorkshop.png"
+    },
+    {
+      "id": 86,
+      "name": "Mercenary Post",
+      "name_de": "Söldnerposten",
+      "category": "weapons",
+      "kind": "building",
+      "width": 10,
+      "height": 10,
+      "thumbnail": "MercenaryPost.png"
+    },
+    {
+      "id": 87,
+      "name": "Barracks",
+      "name_de": "Unterkünfte",
+      "category": "weapons",
+      "kind": "building",
+      "width": 10,
+      "height": 10,
+      "thumbnail": "Barracks.png"
+    },
+    {
+      "id": 88,
+      "name": "Engineers Guild",
+      "name_de": "Baumeistergilde",
+      "category": "weapons",
+      "kind": "building",
+      "width": 5,
+      "height": 10,
+      "thumbnail": "EngineersGuild.png"
+    },
+    {
+      "id": 89,
+      "name": "Tunnellers Guild",
+      "name_de": "Tunnelgräbergilde",
+      "category": "weapons",
+      "kind": "building",
+      "width": 5,
+      "height": 10,
+      "thumbnail": "TunnellersGuild.png"
+    },
+    {
+      "id": 90,
+      "name": "Iron Mine",
+      "name_de": "Eisenmine",
+      "category": "industry",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 2,
+      "thumbnail": "IronMine.png"
+    },
+    {
+      "id": 91,
+      "name": "Pitch Rig",
+      "name_de": "Pechgrube",
+      "category": "industry",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 1,
+      "thumbnail": "PitchRig.png"
+    },
+    {
+      "id": 92,
+      "name": "Inn",
+      "name_de": "Schenke",
+      "category": "industry",
+      "kind": "building",
+      "width": 5,
+      "height": 5,
+      "workers": 1,
+      "thumbnail": "Inn.png"
+    },
+    {
+      "id": 93,
+      "name": "Apothecary",
+      "name_de": "Apotheke",
+      "category": "industry",
+      "kind": "building",
+      "width": 6,
+      "height": 6,
+      "workers": 1,
+      "thumbnail": "Apothecary.png"
+    },
+    {
+      "id": 95,
+      "name": "Chapel",
+      "name_de": "Kapelle",
+      "category": "town",
+      "kind": "building",
+      "width": 6,
+      "height": 6,
+      "workers": 1,
+      "thumbnail": "Chapel.png"
+    },
+    {
+      "id": 96,
+      "name": "Church",
+      "name_de": "Kirche",
+      "category": "town",
+      "kind": "building",
+      "width": 9,
+      "height": 9,
+      "workers": 1,
+      "thumbnail": "Church.png"
+    },
+    {
+      "id": 97,
+      "name": "Cathedral",
+      "name_de": "Kathedrale",
+      "category": "town",
+      "kind": "building",
+      "width": 13,
+      "height": 13,
+      "workers": 1,
+      "thumbnail": "Cathedral.png"
+    },
+    {
+      "id": 98,
+      "name": "Killing Pits",
+      "name_de": "Mörderlöcher",
+      "category": "castle",
+      "kind": "building",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "KillingPits.png"
+    },
+    {
+      "id": 99,
+      "name": "Pitch Ditch",
+      "name_de": "Pechgraben",
+      "category": "moats",
+      "kind": "moat",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "PitchDitch.png"
+    },
+    {
+      "id": 105,
+      "name": "Drawbridge",
+      "name_de": "Zugbrücke",
+      "category": "gatehouses",
+      "kind": "building",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "Drawbridge.png"
+    },
+    {
+      "id": 106,
+      "name": "Moat (1×1)",
+      "name_de": "Wassergraben (1×1)",
+      "category": "moats",
+      "kind": "moat",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "Moat.png"
+    },
+    {
+      "id": 1061,
+      "name": "Moat (2×2)",
+      "name_de": "Wassergraben (2×2)",
+      "category": "moats",
+      "kind": "moat",
+      "width": 2,
+      "height": 2,
+      "game_item_type": 106,
+      "thumbnail": "Moat.png"
+    },
+    {
+      "id": 1062,
+      "name": "Moat (3×3)",
+      "name_de": "Wassergraben (3×3)",
+      "category": "moats",
+      "kind": "moat",
+      "width": 3,
+      "height": 3,
+      "game_item_type": 106,
+      "thumbnail": "Moat.png"
+    },
+    {
+      "id": 1063,
+      "name": "Moat (4×4)",
+      "name_de": "Wassergraben (4×4)",
+      "category": "moats",
+      "kind": "moat",
+      "width": 4,
+      "height": 4,
+      "game_item_type": 106,
+      "thumbnail": "Moat.png"
+    },
+    {
+      "id": 110,
+      "name": "Lookout Tower",
+      "name_de": "Wachturm",
+      "category": "castle",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "thumbnail": "Tower1.png"
+    },
+    {
+      "id": 111,
+      "name": "Perimeter Tower",
+      "name_de": "Mauerturm",
+      "category": "castle",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "thumbnail": "Tower2.png"
+    },
+    {
+      "id": 112,
+      "name": "Defence Turret",
+      "name_de": "Verteidigungsturm",
+      "category": "castle",
+      "kind": "building",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "Tower3.png"
+    },
+    {
+      "id": 113,
+      "name": "Square Tower",
+      "name_de": "Quadratischer Turm",
+      "category": "castle",
+      "kind": "building",
+      "width": 6,
+      "height": 6,
+      "thumbnail": "Tower4.png"
+    },
+    {
+      "id": 114,
+      "name": "Round Tower",
+      "name_de": "Rundturm",
+      "category": "castle",
+      "kind": "building",
+      "width": 6,
+      "height": 6,
+      "thumbnail": "Tower5.png"
+    },
+    {
+      "id": 144,
+      "name": "Small Stone Gatehouse EW",
+      "name_de": "Kleines Steintor OW",
+      "category": "gatehouses",
+      "kind": "gatehouse-ew",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "SmallStoneGatehouse.png"
+    },
+    {
+      "id": 145,
+      "name": "Small Stone Gatehouse NS",
+      "name_de": "Kleines Steintor NS",
+      "category": "gatehouses",
+      "kind": "gatehouse-ns",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "SmallStoneGatehouse.png"
+    },
+    {
+      "id": 146,
+      "name": "Large Stone Gatehouse EW",
+      "name_de": "Großes Steintor OW",
+      "category": "gatehouses",
+      "kind": "gatehouse-ew",
+      "width": 7,
+      "height": 7,
+      "thumbnail": "LargeStoneGatehouse.png"
+    },
+    {
+      "id": 147,
+      "name": "Large Stone Gatehouse NS",
+      "name_de": "Großes Steintor NS",
+      "category": "gatehouses",
+      "kind": "gatehouse-ns",
+      "width": 7,
+      "height": 7,
+      "thumbnail": "LargeStoneGatehouse.png"
+    },
+    {
+      "id": 166,
+      "name": "Communal Garden",
+      "name_de": "Gemeinschaftsgarten",
+      "category": "good_stuff",
+      "kind": "building",
+      "width": 2,
+      "height": 2,
+      "thumbnail": "CommunalGarden.png"
+    },
+    {
+      "id": 169,
+      "name": "Town Garden",
+      "name_de": "Stadtgarten",
+      "category": "good_stuff",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "thumbnail": "TownGarden.png"
+    },
+    {
+      "id": 175,
+      "name": "Maypole",
+      "name_de": "Maibaum",
+      "category": "good_stuff",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "thumbnail": "Maypole.png"
+    },
+    {
+      "id": 176,
+      "name": "Gallows",
+      "name_de": "Galgen",
+      "category": "bad_stuff",
+      "kind": "building",
+      "width": 2,
+      "height": 2,
+      "thumbnail": "Gallows.png"
+    },
+    {
+      "id": 177,
+      "name": "Stocks",
+      "name_de": "Pranger",
+      "category": "bad_stuff",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "thumbnail": "Stocks.png"
+    },
+    {
+      "id": 180,
+      "name": "Oil Smelter",
+      "name_de": "Pechkessel",
+      "category": "castle",
+      "kind": "building",
+      "width": 4,
+      "height": 8,
+      "thumbnail": "OilSmelter.png"
+    },
+    {
+      "id": 181,
+      "name": "Wall Stairs 1",
+      "name_de": "Mauertreppe 1",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "WallStairs.png"
+    },
+    {
+      "id": 182,
+      "name": "Wall Stairs 2",
+      "name_de": "Mauertreppe 2",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "WallStairs.png"
+    },
+    {
+      "id": 183,
+      "name": "Wall Stairs 3",
+      "name_de": "Mauertreppe 3",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "WallStairs.png"
+    },
+    {
+      "id": 184,
+      "name": "Wall Stairs 4",
+      "name_de": "Mauertreppe 4",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "WallStairs.png"
+    },
+    {
+      "id": 185,
+      "name": "Wall Stairs 5",
+      "name_de": "Mauertreppe 5",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "WallStairs.png"
+    },
+    {
+      "id": 186,
+      "name": "Wall Stairs 6",
+      "name_de": "Mauertreppe 6",
+      "category": "wall",
+      "kind": "wall",
+      "width": 1,
+      "height": 1,
+      "thumbnail": "WallStairs.png"
+    },
+    {
+      "id": 301,
+      "name": "Cesspit",
+      "name_de": "Jauchegrube",
+      "category": "bad_stuff",
+      "kind": "building",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "Cesspit.png"
+    },
+    {
+      "id": 305,
+      "name": "Burning Stake",
+      "name_de": "Scheiterhaufen",
+      "category": "bad_stuff",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "thumbnail": "Burningstake.png"
+    },
+    {
+      "id": 306,
+      "name": "Gibbet",
+      "name_de": "Käfig",
+      "category": "bad_stuff",
+      "kind": "building",
+      "width": 2,
+      "height": 2,
+      "thumbnail": "Gibbet.png"
+    },
+    {
+      "id": 307,
+      "name": "Dungeon",
+      "name_de": "Kerker",
+      "category": "bad_stuff",
+      "kind": "building",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "Dungeon.png"
+    },
+    {
+      "id": 308,
+      "name": "Stretching Rack",
+      "name_de": "Streckbank",
+      "category": "bad_stuff",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "thumbnail": "StretchingRack.png"
+    },
+    {
+      "id": 310,
+      "name": "Chopping Block",
+      "name_de": "Hackblock",
+      "category": "bad_stuff",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "thumbnail": "ChoppingBlock.png"
+    },
+    {
+      "id": 311,
+      "name": "Dunking Stool",
+      "name_de": "Tauchstuhl",
+      "category": "bad_stuff",
+      "kind": "building",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "DunkingStool.png"
+    },
+    {
+      "id": 312,
+      "name": "Caged War Dogs",
+      "name_de": "Hundezwinger",
+      "category": "castle",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "thumbnail": "CagedWarDogs.png"
+    },
+    {
+      "id": 313,
+      "name": "Statue",
+      "name_de": "Statue",
+      "category": "good_stuff",
+      "kind": "building",
+      "width": 2,
+      "height": 2,
+      "thumbnail": "Statue.png"
+    },
+    {
+      "id": 318,
+      "name": "Shrine",
+      "name_de": "Schrein",
+      "category": "good_stuff",
+      "kind": "building",
+      "width": 2,
+      "height": 2,
+      "thumbnail": "Shrine.png"
+    },
+    {
+      "id": 324,
+      "name": "Dancing Bear",
+      "name_de": "Tanzbär",
+      "category": "good_stuff",
+      "kind": "building",
+      "width": 5,
+      "height": 5,
+      "thumbnail": "DancingBear.png"
+    },
+    {
+      "id": 330,
+      "name": "Well",
+      "name_de": "Brunnen",
+      "category": "town",
+      "kind": "building",
+      "width": 3,
+      "height": 3,
+      "thumbnail": "Well.png"
+    },
+    {
+      "id": 342,
+      "name": "Water Pot",
+      "name_de": "Wassertopf",
+      "category": "town",
+      "kind": "building",
+      "width": 4,
+      "height": 4,
+      "workers": 3,
+      "thumbnail": "WaterPot.png"
+    }
+  ],
+  "categories": {
+    "castle": {"name": "Castle", "name_de": "Burg", "icon": "icons/tower.png"},
+    "wall": {"name": "Walls", "name_de": "Mauern", "icon": "icons/shield.png"},
+    "gatehouses": {"name": "Gatehouses", "name_de": "Tore", "icon": "icons/shield.png"},
+    "weapons": {"name": "Weapons & Troops", "name_de": "Waffen & Truppen", "icon": "icons/euro_sword.png"},
+    "industry": {"name": "Industry", "name_de": "Industrie", "icon": "icons/hammer.png"},
+    "food": {"name": "Food", "name_de": "Nahrung", "icon": "icons/apple.png"},
+    "town": {"name": "Town", "name_de": "Stadt", "icon": "icons/house.png"},
+    "good_stuff": {"name": "Good Things", "name_de": "Gute Dinge", "icon": "icons/trumpet.png"},
+    "bad_stuff": {"name": "Bad Things", "name_de": "Schlechte Dinge", "icon": "icons/ruins.png"},
+    "moats": {"name": "Moats & Pitch", "name_de": "Gräben & Pech", "icon": "icons/shield.png"},
+    "units": {"name": "Units", "name_de": "Einheiten", "icon": "icons/euro_sword.png"}
+  }
+}

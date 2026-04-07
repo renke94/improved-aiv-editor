@@ -1,24 +1,17 @@
 [project]
 name = "improved_aiv_editor"
 version = "0.1.0"
-description = "A Python project template"
+description = "AIV Castle Editor for Stronghold Crusader"
 readme = "README.md"
-authors = [
-
-]
+authors = []
 requires-python = ">=3.12"
 
-# https://docs.astral.sh/uv/concepts/projects/dependencies/#adding-dependencies
 dependencies = [
-    "fastapi>=0.135.3",
-    "pydantic>=2.12.5",
-    "pydantic-settings>=2.13.1",
-    "python-multipart>=0.0.24",
-    "uvicorn>=0.44.0",
+    "PyQt6>=6.6.0",
 ]
 
 [project.scripts]
-main = "improved_aiv_editor:main"
+main = "improved_aiv_editor.main:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -26,61 +19,3 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/improved_aiv_editor"]
-
-
-[dependency-groups]
-lint = [
-    "pyright>=1.1.408",
-    "ruff>=0.15.9",
-]
-
-dev = [
-    "black>=26.3.1",
-    "lefthook>=2.1.4",
-    "pytest>=9.0.2",
-]
-
-docs = []
-
-
-[tool.ruff]
-line-length = 120
-
-[tool.ruff.lint]
-extend-select = [
-    "Q",
-    "RUF100",
-    "C90",
-    "UP",
-    "I",
-    "D",
-    "F",
-    "E",
-    "W",
-    "N",
-    "ANN",
-    "ASYNC",
-    "S",
-]
-flake8-quotes = { inline-quotes = "single", multiline-quotes = "double" }
-isort = { combine-as-imports = true, known-first-party = ["improved_aiv_editor"] }
-mccabe = { max-complexity = 15 }
-ignore = [
-    "D100", # ignore missing docstring in module
-    "D102", # ignore missing docstring in public method
-    "D104", # ignore missing docstring in public package
-    "D105", # ignore missing docstring in magic methods
-    "D107", # ignore missing docstring in __init__ methods
-    "S101", # allow assert statements
-]
-
-[tool.ruff.lint.pydocstyle]
-convention = "google"
-
-[tool.pyright]
-typeCheckingMode = "strict"
-reportMissingTypeStubs = false
-reportUnnecessaryIsInstance = false
-reportUnnecessaryTypeIgnoreComment = true
-include = ["src"]
-venvPath = ".venv"
