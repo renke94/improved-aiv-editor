@@ -8,6 +8,7 @@
       "kind": "building",
       "width": 2,
       "height": 2,
+      "color": "#8C64B464",
       "thumbnail": "ShrubGarden.png"
     },
     {
@@ -18,6 +19,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CC8A838",
       "thumbnail": "Engineer.png"
     },
     {
@@ -28,6 +30,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CB89C30",
       "thumbnail": "Mangonel.png"
     },
     {
@@ -38,6 +41,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CD0B040",
       "thumbnail": "Ballista.png"
     },
     {
@@ -48,6 +52,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CC0A038",
       "thumbnail": "Trebuchet.png"
     },
     {
@@ -58,6 +63,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CD89838",
       "thumbnail": "FireBallista.png"
     },
     {
@@ -68,6 +74,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CC8A040",
       "thumbnail": "EuroArcher.png"
     },
     {
@@ -78,6 +85,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CB89838",
       "thumbnail": "EuroCrossbowman.png"
     },
     {
@@ -88,6 +96,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CD0A848",
       "thumbnail": "EuroSpearman.png"
     },
     {
@@ -98,6 +107,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CC09830",
       "thumbnail": "EuroPikeman.png"
     },
     {
@@ -108,6 +118,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CB89030",
       "thumbnail": "EuroMaceman.png"
     },
     {
@@ -118,6 +129,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CC8A848",
       "thumbnail": "EuroSwordsman.png"
     },
     {
@@ -128,6 +140,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CD8B050",
       "thumbnail": "EuroKnight.png"
     },
     {
@@ -138,6 +151,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CA89028",
       "thumbnail": "ArabSlave.png"
     },
     {
@@ -148,6 +162,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CC0A038",
       "thumbnail": "ArabSlinger.png"
     },
     {
@@ -158,6 +173,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8C987828",
       "thumbnail": "ArabAssassin.png"
     },
     {
@@ -168,6 +184,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CC8A840",
       "thumbnail": "ArabArcher.png"
     },
     {
@@ -178,6 +195,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CD0A838",
       "thumbnail": "ArabHorseArcher.png"
     },
     {
@@ -188,6 +206,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CB89830",
       "thumbnail": "ArabSwordsman.png"
     },
     {
@@ -198,6 +217,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CD89028",
       "thumbnail": "ArabFireThrower.png"
     },
     {
@@ -208,6 +228,7 @@
       "kind": "unit",
       "width": 1,
       "height": 1,
+      "color": "#8CC89830",
       "thumbnail": "Brazier.png"
     },
     {
@@ -218,6 +239,7 @@
       "kind": "building",
       "width": 1,
       "height": 1,
+      "color": "#8CA08C78",
       "thumbnail": "Flag1.png"
     },
     {
@@ -228,6 +250,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#B48C8C8C",
       "thumbnail": "StoneWall.png"
     },
     {
@@ -238,6 +261,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#A49090A0",
       "thumbnail": "CrenulatedWall.png"
     },
     {
@@ -248,6 +272,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#A4707080",
       "thumbnail": "CrenulatedWall.png"
     },
     {
@@ -258,6 +283,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#B4707070",
       "thumbnail": "LowWall.png"
     },
     {
@@ -269,6 +295,7 @@
       "width": 4,
       "height": 4,
       "workers": 1,
+      "color": "#8CB45050",
       "thumbnail": "FletchersWorkshop.png"
     },
     {
@@ -280,6 +307,7 @@
       "width": 3,
       "height": 3,
       "workers": 1,
+      "color": "#8CB49E64",
       "thumbnail": "WoodcuttersHut.png"
     },
     {
@@ -290,6 +318,7 @@
       "kind": "building",
       "width": 5,
       "height": 5,
+      "color": "#8CB09878",
       "thumbnail": "Stockpile.png"
     },
     {
@@ -301,6 +330,7 @@
       "width": 4,
       "height": 4,
       "housing": 8,
+      "color": "#8CC0A888",
       "thumbnail": "Hovel.png"
     },
     {
@@ -312,6 +342,7 @@
       "width": 2,
       "height": 2,
       "workers": 1,
+      "color": "#8CA89050",
       "thumbnail": "OxTether.png"
     },
     {
@@ -323,6 +354,7 @@
       "width": 6,
       "height": 6,
       "workers": 3,
+      "color": "#8CC0A868",
       "thumbnail": "Quarry.png"
     },
     {
@@ -334,6 +366,7 @@
       "width": 12,
       "height": 15,
       "housing": 10,
+      "color": "#A06E5038",
       "thumbnail": null,
       "special_shape": [
         {"x": 0, "y": 0, "w": 7, "h": 7},
@@ -351,6 +384,7 @@
       "kind": "building",
       "width": 6,
       "height": 6,
+      "color": "#8CC06848",
       "thumbnail": "Stables.png"
     },
     {
@@ -362,6 +396,7 @@
       "width": 9,
       "height": 9,
       "workers": 1,
+      "color": "#8C80B858",
       "thumbnail": "WheatFarm.png"
     },
     {
@@ -373,6 +408,7 @@
       "width": 9,
       "height": 9,
       "workers": 1,
+      "color": "#8C60A040",
       "thumbnail": "HopsFarm.png"
     },
     {
@@ -384,6 +420,7 @@
       "width": 10,
       "height": 10,
       "workers": 1,
+      "color": "#8C78B848",
       "thumbnail": "AppleOrchard.png"
     },
     {
@@ -395,6 +432,7 @@
       "width": 10,
       "height": 10,
       "workers": 1,
+      "color": "#8C68A850",
       "thumbnail": "DairyFarm.png"
     },
     {
@@ -406,6 +444,7 @@
       "width": 3,
       "height": 3,
       "workers": 3,
+      "color": "#8C90C060",
       "thumbnail": "Mill.png"
     },
     {
@@ -417,6 +456,7 @@
       "width": 4,
       "height": 4,
       "workers": 1,
+      "color": "#8CD0B878",
       "thumbnail": "Bakery.png"
     },
     {
@@ -428,6 +468,7 @@
       "width": 4,
       "height": 4,
       "workers": 1,
+      "color": "#8CB89040",
       "thumbnail": "Brewery.png"
     },
     {
@@ -438,6 +479,7 @@
       "kind": "building",
       "width": 5,
       "height": 5,
+      "color": "#8CC8B068",
       "thumbnail": "Marketplace.png"
     },
     {
@@ -449,6 +491,7 @@
       "width": 3,
       "height": 3,
       "workers": 1,
+      "color": "#8C58A038",
       "thumbnail": "HuntersPost.png"
     },
     {
@@ -459,6 +502,7 @@
       "kind": "building",
       "width": 10,
       "height": 10,
+      "color": "#8CA04040",
       "thumbnail": null
     },
     {
@@ -469,6 +513,7 @@
       "kind": "building",
       "width": 4,
       "height": 4,
+      "color": "#8C88B850",
       "thumbnail": "Granary.png"
     },
     {
@@ -479,6 +524,7 @@
       "kind": "building",
       "width": 4,
       "height": 4,
+      "color": "#8CB84848",
       "thumbnail": "Armory.png"
     },
     {
@@ -490,6 +536,7 @@
       "width": 4,
       "height": 4,
       "workers": 1,
+      "color": "#8CC05840",
       "thumbnail": "PoleturnersWorkshop.png"
     },
     {
@@ -501,6 +548,7 @@
       "width": 4,
       "height": 4,
       "workers": 1,
+      "color": "#8C9C4040",
       "thumbnail": "BlacksmithsWorkshop.png"
     },
     {
@@ -512,6 +560,7 @@
       "width": 4,
       "height": 4,
       "workers": 1,
+      "color": "#8CB05050",
       "thumbnail": "ArmorersWorkshop.png"
     },
     {
@@ -523,6 +572,7 @@
       "width": 4,
       "height": 4,
       "workers": 1,
+      "color": "#8CC87050",
       "thumbnail": "TannersWorkshop.png"
     },
     {
@@ -533,6 +583,7 @@
       "kind": "building",
       "width": 10,
       "height": 10,
+      "color": "#8C984848",
       "thumbnail": "MercenaryPost.png"
     },
     {
@@ -543,6 +594,7 @@
       "kind": "building",
       "width": 10,
       "height": 10,
+      "color": "#8CB84040",
       "thumbnail": "Barracks.png"
     },
     {
@@ -553,6 +605,7 @@
       "kind": "building",
       "width": 5,
       "height": 10,
+      "color": "#8CC06850",
       "thumbnail": "EngineersGuild.png"
     },
     {
@@ -563,6 +616,7 @@
       "kind": "building",
       "width": 5,
       "height": 10,
+      "color": "#8CA85848",
       "thumbnail": "TunnellersGuild.png"
     },
     {
@@ -574,6 +628,7 @@
       "width": 4,
       "height": 4,
       "workers": 2,
+      "color": "#8C8C7C58",
       "thumbnail": "IronMine.png"
     },
     {
@@ -585,6 +640,7 @@
       "width": 4,
       "height": 4,
       "workers": 1,
+      "color": "#8C9C9048",
       "thumbnail": "PitchRig.png"
     },
     {
@@ -596,6 +652,7 @@
       "width": 5,
       "height": 5,
       "workers": 1,
+      "color": "#8CD0A858",
       "thumbnail": "Inn.png"
     },
     {
@@ -607,6 +664,7 @@
       "width": 6,
       "height": 6,
       "workers": 1,
+      "color": "#8CA0B870",
       "thumbnail": "Apothecary.png"
     },
     {
@@ -618,6 +676,7 @@
       "width": 6,
       "height": 6,
       "workers": 1,
+      "color": "#8CA89880",
       "thumbnail": "Chapel.png"
     },
     {
@@ -629,6 +688,7 @@
       "width": 9,
       "height": 9,
       "workers": 1,
+      "color": "#8C988868",
       "thumbnail": "Church.png"
     },
     {
@@ -640,6 +700,7 @@
       "width": 13,
       "height": 13,
       "workers": 1,
+      "color": "#8CB0A090",
       "thumbnail": "Cathedral.png"
     },
     {
@@ -650,6 +711,7 @@
       "kind": "building",
       "width": 1,
       "height": 1,
+      "color": "#A05C3D28",
       "thumbnail": "KillingPits.png"
     },
     {
@@ -660,6 +722,7 @@
       "kind": "moat",
       "width": 1,
       "height": 1,
+      "color": "#8C4870A8",
       "thumbnail": "PitchDitch.png"
     },
     {
@@ -670,6 +733,7 @@
       "kind": "building",
       "width": 5,
       "height": 5,
+      "color": "#A07A6448",
       "thumbnail": "Drawbridge.png"
     },
     {
@@ -680,6 +744,7 @@
       "kind": "moat",
       "width": 1,
       "height": 1,
+      "color": "#8C3C78C8",
       "thumbnail": "Moat.png"
     },
     {
@@ -691,6 +756,7 @@
       "width": 2,
       "height": 2,
       "game_item_type": 106,
+      "color": "#8C3C78C8",
       "thumbnail": "Moat.png"
     },
     {
@@ -702,6 +768,7 @@
       "width": 3,
       "height": 3,
       "game_item_type": 106,
+      "color": "#8C3C78C8",
       "thumbnail": "Moat.png"
     },
     {
@@ -713,6 +780,7 @@
       "width": 4,
       "height": 4,
       "game_item_type": 106,
+      "color": "#8C3C78C8",
       "thumbnail": "Moat.png"
     },
     {
@@ -723,6 +791,7 @@
       "kind": "building",
       "width": 3,
       "height": 3,
+      "color": "#A09B7A56",
       "thumbnail": "Tower1.png"
     },
     {
@@ -733,6 +802,7 @@
       "kind": "building",
       "width": 4,
       "height": 4,
+      "color": "#A0846A48",
       "thumbnail": "Tower2.png"
     },
     {
@@ -743,6 +813,7 @@
       "kind": "building",
       "width": 5,
       "height": 5,
+      "color": "#A06B5038",
       "thumbnail": "Tower3.png"
     },
     {
@@ -753,6 +824,7 @@
       "kind": "building",
       "width": 6,
       "height": 6,
+      "color": "#A0785A40",
       "thumbnail": "Tower4.png"
     },
     {
@@ -763,6 +835,7 @@
       "kind": "building",
       "width": 6,
       "height": 6,
+      "color": "#A0705840",
       "thumbnail": "Tower5.png"
     },
     {
@@ -773,6 +846,7 @@
       "kind": "gatehouse-ew",
       "width": 5,
       "height": 5,
+      "color": "#A08C7458",
       "thumbnail": "SmallStoneGatehouse.png"
     },
     {
@@ -783,6 +857,7 @@
       "kind": "gatehouse-ns",
       "width": 5,
       "height": 5,
+      "color": "#A08C7458",
       "thumbnail": "SmallStoneGatehouse.png"
     },
     {
@@ -793,6 +868,7 @@
       "kind": "gatehouse-ew",
       "width": 7,
       "height": 7,
+      "color": "#A09E8468",
       "thumbnail": "LargeStoneGatehouse.png"
     },
     {
@@ -803,6 +879,7 @@
       "kind": "gatehouse-ns",
       "width": 7,
       "height": 7,
+      "color": "#A09E8468",
       "thumbnail": "LargeStoneGatehouse.png"
     },
     {
@@ -813,6 +890,7 @@
       "kind": "building",
       "width": 2,
       "height": 2,
+      "color": "#8C58A858",
       "thumbnail": "CommunalGarden.png"
     },
     {
@@ -823,6 +901,7 @@
       "kind": "building",
       "width": 4,
       "height": 4,
+      "color": "#8C78C078",
       "thumbnail": "TownGarden.png"
     },
     {
@@ -833,6 +912,7 @@
       "kind": "building",
       "width": 3,
       "height": 3,
+      "color": "#8C70C870",
       "thumbnail": "Maypole.png"
     },
     {
@@ -843,6 +923,7 @@
       "kind": "building",
       "width": 2,
       "height": 2,
+      "color": "#8CB4383C",
       "thumbnail": "Gallows.png"
     },
     {
@@ -853,6 +934,7 @@
       "kind": "building",
       "width": 3,
       "height": 3,
+      "color": "#8CC04840",
       "thumbnail": "Stocks.png"
     },
     {
@@ -863,6 +945,7 @@
       "kind": "building",
       "width": 4,
       "height": 8,
+      "color": "#A08B6844",
       "thumbnail": "OilSmelter.png"
     },
     {
@@ -873,6 +956,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#B4989898",
       "thumbnail": "WallStairs.png"
     },
     {
@@ -883,6 +967,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#B4989898",
       "thumbnail": "WallStairs.png"
     },
     {
@@ -893,6 +978,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#B4989898",
       "thumbnail": "WallStairs.png"
     },
     {
@@ -903,6 +989,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#B4989898",
       "thumbnail": "WallStairs.png"
     },
     {
@@ -913,6 +1000,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#B4989898",
       "thumbnail": "WallStairs.png"
     },
     {
@@ -923,6 +1011,7 @@
       "kind": "wall",
       "width": 1,
       "height": 1,
+      "color": "#B4989898",
       "thumbnail": "WallStairs.png"
     },
     {
@@ -933,6 +1022,7 @@
       "kind": "building",
       "width": 5,
       "height": 5,
+      "color": "#8CA83030",
       "thumbnail": "Cesspit.png"
     },
     {
@@ -943,6 +1033,7 @@
       "kind": "building",
       "width": 3,
       "height": 3,
+      "color": "#8CD04828",
       "thumbnail": "Burningstake.png"
     },
     {
@@ -953,6 +1044,7 @@
       "kind": "building",
       "width": 2,
       "height": 2,
+      "color": "#8CB84038",
       "thumbnail": "Gibbet.png"
     },
     {
@@ -963,6 +1055,7 @@
       "kind": "building",
       "width": 5,
       "height": 5,
+      "color": "#8C982C2C",
       "thumbnail": "Dungeon.png"
     },
     {
@@ -973,6 +1066,7 @@
       "kind": "building",
       "width": 3,
       "height": 3,
+      "color": "#8CC83830",
       "thumbnail": "StretchingRack.png"
     },
     {
@@ -983,6 +1077,7 @@
       "kind": "building",
       "width": 3,
       "height": 3,
+      "color": "#8CB04028",
       "thumbnail": "ChoppingBlock.png"
     },
     {
@@ -993,6 +1088,7 @@
       "kind": "building",
       "width": 5,
       "height": 5,
+      "color": "#8CA84840",
       "thumbnail": "DunkingStool.png"
     },
     {
@@ -1003,6 +1099,7 @@
       "kind": "building",
       "width": 3,
       "height": 3,
+      "color": "#A0926E50",
       "thumbnail": "CagedWarDogs.png"
     },
     {
@@ -1013,6 +1110,7 @@
       "kind": "building",
       "width": 2,
       "height": 2,
+      "color": "#8C60B060",
       "thumbnail": "Statue.png"
     },
     {
@@ -1023,6 +1121,7 @@
       "kind": "building",
       "width": 2,
       "height": 2,
+      "color": "#8C50B860",
       "thumbnail": "Shrine.png"
     },
     {
@@ -1033,6 +1132,7 @@
       "kind": "building",
       "width": 5,
       "height": 5,
+      "color": "#8C80CC80",
       "thumbnail": "DancingBear.png"
     },
     {
@@ -1043,6 +1143,7 @@
       "kind": "building",
       "width": 3,
       "height": 3,
+      "color": "#8C908068",
       "thumbnail": "Well.png"
     },
     {
@@ -1054,6 +1155,7 @@
       "width": 4,
       "height": 4,
       "workers": 3,
+      "color": "#8CA89078",
       "thumbnail": "WaterPot.png"
     }
   ],

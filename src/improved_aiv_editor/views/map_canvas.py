@@ -40,6 +40,15 @@ CATEGORY_COLORS: dict[str, QColor] = {
 SELECTION_COLOR = QColor(40, 120, 255, 100)
 SELECTION_BORDER = QColor(40, 120, 255, 220)
 
+_DEFAULT_COLOR = QColor(150, 150, 150, 140)
+
+
+def _resolve_building_color(building_def: "BuildingDef") -> QColor:
+    """Return per-building color if set, otherwise fall back to category color."""
+    if building_def.color:
+        return QColor(building_def.color)
+    return CATEGORY_COLORS.get(building_def.category, _DEFAULT_COLOR)
+
 
 class BuildingGraphicsItem(QGraphicsRectItem):
     """A building placed on the map, linked to a specific frame and position index."""
@@ -63,7 +72,7 @@ class BuildingGraphicsItem(QGraphicsRectItem):
         self.tile_x = tile_x
         self.tile_y = tile_y
 
-        color = CATEGORY_COLORS.get(building_def.category, QColor(150, 150, 150, 140))
+        color = _resolve_building_color(building_def)
         self.setBrush(QBrush(color))
         self.setPen(QPen(color.darker(150), 1.0))
 
@@ -119,7 +128,7 @@ class GatehouseGraphicsItem(QGraphicsRectItem):
         self.tile_y = tile_y
         self._is_ns = building_def.kind == "gatehouse-ns"
 
-        color = CATEGORY_COLORS.get(building_def.category, QColor(150, 150, 150, 140))
+        color = _resolve_building_color(building_def)
         self.setBrush(QBrush(color))
         self.setPen(QPen(color.darker(150), 1.0))
 
@@ -310,8 +319,9 @@ class WallSegmentItem(QGraphicsRectItem):
         self.tile_x = tile_x
         self.tile_y = tile_y
 
-        self.setBrush(QBrush(QColor(140, 140, 140, 200)))
-        self.setPen(QPen(QColor(100, 100, 100), 0.5))
+        color = _resolve_building_color(building_def)
+        self.setBrush(QBrush(color))
+        self.setPen(QPen(color.darker(150), 0.5))
         self.setPos(tile_x * TILE_SIZE, tile_y * TILE_SIZE)
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable, True)
         self.setZValue(frame_index)

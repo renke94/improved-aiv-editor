@@ -35,6 +35,7 @@ class BuildingDef:
     fixed_position: bool = False
     special_shape: list[SpecialShapeRect] = field(default_factory=list)
     game_item_type: Optional[int] = None  # if set, file itemType (e.g. moat variants → 106)
+    color: Optional[str] = None  # hex color override, e.g. "#FF8040" or "#FF8040A0"
 
     _pixmap_cache: Optional[QPixmap] = field(default=None, repr=False, compare=False)
 
@@ -116,6 +117,7 @@ class BuildingRegistry:
                 fixed_position=entry.get("fixed_position", False),
                 special_shape=special,
                 game_item_type=entry.get("game_item_type"),
+                color=entry.get("color"),
             )
             self._by_id[bdef.id] = bdef
             self._all.append(bdef)
