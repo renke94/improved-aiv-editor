@@ -521,9 +521,9 @@ class MainWindow(QMainWindow):
             self._scene.clearSelection()
             if self._document is None:
                 return
-            from improved_aiv_editor.views.map_canvas import BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem
+            from improved_aiv_editor.views.map_canvas import BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem
             for item in self._scene._building_items:
-                if isinstance(item, (BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
+                if isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
                     if item.frame_index in indices:
                         item.setSelected(True)
         finally:
@@ -547,8 +547,8 @@ class MainWindow(QMainWindow):
         if self._document is None:
             return
         for item in self._scene._building_items:
-            from improved_aiv_editor.views.map_canvas import BuildingGraphicsItem, WallSegmentItem
-            if isinstance(item, (BuildingGraphicsItem, WallSegmentItem)):
+            from improved_aiv_editor.views.map_canvas import BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem
+            if isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem)):
                 item.setVisible(item.frame_index <= frame_index)
 
     def _on_wall_type_changed(self, index: int) -> None:

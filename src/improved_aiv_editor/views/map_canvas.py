@@ -92,6 +92,109 @@ class BuildingGraphicsItem(QGraphicsRectItem):
             painter.drawRect(self.rect())
 
 
+class GatehouseGraphicsItem(QGraphicsRectItem):
+    """A gatehouse on the map with an orientation indicator (NS or EW arrow)."""
+
+    _ARROW_COLOR = QColor(255, 255, 255, 200)
+    _ARROW_PEN_WIDTH = 1.8
+    _ARROWHEAD_SIZE = 3.0
+
+    def __init__(
+        self,
+        frame_index: int,
+        pos_index: int,
+        building_def: "BuildingDef",
+        tile_x: int,
+        tile_y: int,
+        parent: Optional[QGraphicsItem] = None,
+    ) -> None:
+        w = building_def.width * TILE_SIZE
+        h = building_def.height * TILE_SIZE
+        super().__init__(0, 0, w, h, parent)
+
+        self.frame_index = frame_index
+        self.pos_index = pos_index
+        self.building_def = building_def
+        self.tile_x = tile_x
+        self.tile_y = tile_y
+        self._is_ns = building_def.kind == "gatehouse-ns"
+
+        color = CATEGORY_COLORS.get(building_def.category, QColor(150, 150, 150, 140))
+        self.setBrush(QBrush(color))
+        self.setPen(QPen(color.darker(150), 1.0))
+
+        self.setPos(tile_x * TILE_SIZE, tile_y * TILE_SIZE)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable, True)
+        self.setZValue(frame_index)
+
+        self._label = QGraphicsSimpleTextItem(building_def.display_name(), self)
+        font = QFont("Helvetica", 6)
+        self._label.setFont(font)
+        self._label.setBrush(QBrush(QColor(0, 0, 0, 200)))
+        label_rect = self._label.boundingRect()
+        if label_rect.width() > w:
+            self._label.setVisible(False)
+        else:
+            self._label.setPos(
+                (w - label_rect.width()) / 2,
+                (h - label_rect.height()) / 2 - 5,
+            )
+
+    def paint(self, painter: QPainter, option: object, widget: object = None) -> None:  # type: ignore[override]
+        super().paint(painter, option, widget)
+
+        r = self.rect()
+        cx = r.center().x()
+        cy = r.center().y()
+        margin = TILE_SIZE * 0.8
+        a = self._ARROWHEAD_SIZE
+
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        pen = QPen(self._ARROW_COLOR, self._ARROW_PEN_WIDTH)
+        pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+        painter.setPen(pen)
+        painter.setBrush(QBrush(self._ARROW_COLOR))
+
+        if self._is_ns:
+            y1 = r.top() + margin
+            y2 = r.bottom() - margin
+            painter.drawLine(QPointF(cx, y1), QPointF(cx, y2))
+            head_n = QPainterPath()
+            head_n.moveTo(cx, y1)
+            head_n.lineTo(cx - a, y1 + a * 1.5)
+            head_n.lineTo(cx + a, y1 + a * 1.5)
+            head_n.closeSubpath()
+            painter.drawPath(head_n)
+            head_s = QPainterPath()
+            head_s.moveTo(cx, y2)
+            head_s.lineTo(cx - a, y2 - a * 1.5)
+            head_s.lineTo(cx + a, y2 - a * 1.5)
+            head_s.closeSubpath()
+            painter.drawPath(head_s)
+        else:
+            x1 = r.left() + margin
+            x2 = r.right() - margin
+            painter.drawLine(QPointF(x1, cy), QPointF(x2, cy))
+            head_w = QPainterPath()
+            head_w.moveTo(x1, cy)
+            head_w.lineTo(x1 + a * 1.5, cy - a)
+            head_w.lineTo(x1 + a * 1.5, cy + a)
+            head_w.closeSubpath()
+            painter.drawPath(head_w)
+            head_e = QPainterPath()
+            head_e.moveTo(x2, cy)
+            head_e.lineTo(x2 - a * 1.5, cy - a)
+            head_e.lineTo(x2 - a * 1.5, cy + a)
+            head_e.closeSubpath()
+            painter.drawPath(head_e)
+
+        if self.isSelected():
+            painter.setRenderHint(QPainter.RenderHint.Antialiasing, False)
+            painter.setPen(QPen(SELECTION_BORDER, 2.0))
+            painter.setBrush(QBrush(SELECTION_COLOR))
+            painter.drawRect(self.rect())
+
+
 class KeepGraphicsItem(QGraphicsPathItem):
     """Special non-rectangular Keep shape with colored sections for
     Castle (top-left 7x7), Stockpile (right 5x5), and Fireplace (bottom 7x7)."""
@@ -300,6 +403,8 @@ class MapScene(QGraphicsScene):
             return KeepGraphicsItem(frame_idx, pos_idx, bdef, tx, ty)
         if bdef.kind == "wall":
             return WallSegmentItem(frame_idx, pos_idx, bdef, tx, ty)
+        if bdef.kind in ("gatehouse-ns", "gatehouse-ew"):
+            return GatehouseGraphicsItem(frame_idx, pos_idx, bdef, tx, ty)
         return BuildingGraphicsItem(frame_idx, pos_idx, bdef, tx, ty)
 
     def _add_items_for_frame(self, frame_idx: int, frame: "Frame") -> None:
@@ -320,7 +425,7 @@ class MapScene(QGraphicsScene):
             self._building_items.remove(item)
 
     def _set_item_frame_index(self, item: QGraphicsItem, fi: int) -> None:
-        if isinstance(item, (BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
+        if isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
             item.frame_index = fi
         item.setZValue(fi)
 
@@ -387,7 +492,7 @@ class MapScene(QGraphicsScene):
         for item in self.items(scene_pos):
             cur: Optional[QGraphicsItem] = item
             while cur is not None:
-                if isinstance(cur, (BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
+                if isinstance(cur, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
                     return cur
                 cur = cur.parentItem()
         return None
@@ -395,7 +500,7 @@ class MapScene(QGraphicsScene):
     def get_selected_buildings(self) -> list[QGraphicsItem]:
         return [
             item for item in self.selectedItems()
-            if isinstance(item, (BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem))
+            if isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem))
         ]
 
     def select_buildings_in_rect(self, rect: QRectF, additive: bool) -> None:
@@ -408,7 +513,7 @@ class MapScene(QGraphicsScene):
                 self.clearSelection()
             for item in self._building_items:
                 if not isinstance(
-                    item, (BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem)
+                    item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem)
                 ):
                     continue
                 if item.sceneBoundingRect().intersects(r):

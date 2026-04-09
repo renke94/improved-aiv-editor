@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsView
 from improved_aiv_editor.tools.base_tool import BaseTool
 from improved_aiv_editor.models.commands import MoveBuildingsCommand, DeleteFramesCommand, DeletePositionsCommand
 from improved_aiv_editor.views.map_canvas import (
-    BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem,
+    BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem,
     TILE_SIZE, MapScene, MapCanvas,
 )
 
@@ -32,7 +32,7 @@ class SelectTool(BaseTool):
         super().__init__(scene, canvas, document, registry, undo_stack)
         self._dragging = False
         self._drag_start: Optional[QPointF] = None
-        self._drag_items: list[BuildingGraphicsItem | WallSegmentItem | KeepGraphicsItem] = []
+        self._drag_items: list[BuildingGraphicsItem | GatehouseGraphicsItem | WallSegmentItem | KeepGraphicsItem] = []
         self._drag_start_tile: Optional[tuple[int, int]] = None
 
         self._rubber_origin: Optional[QPointF] = None
@@ -75,7 +75,7 @@ class SelectTool(BaseTool):
             return
 
         item = self._scene.get_building_at(scene_pos)
-        if item is not None and isinstance(item, (BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
+        if item is not None and isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
             self._clear_rubber_band()
 
             if not item.isSelected():
@@ -88,7 +88,7 @@ class SelectTool(BaseTool):
             self._drag_start_tile = self._scene.scene_to_tile(scene_pos)
             self._drag_items = [
                 i for i in self._scene.selectedItems()
-                if isinstance(i, (BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem))
+                if isinstance(i, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem))
             ]
         else:
             self._dragging = False
@@ -158,7 +158,7 @@ class SelectTool(BaseTool):
                 return
             items = [
                 item for item in selected
-                if isinstance(item, (BuildingGraphicsItem, WallSegmentItem, KeepGraphicsItem))
+                if isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem))
                 and item.building_def.id != 61
             ]
             if not items:
