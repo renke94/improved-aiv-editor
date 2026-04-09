@@ -8,7 +8,8 @@ from PyQt6.QtCore import QPointF, Qt
 from PyQt6.QtGui import QMouseEvent, QKeyEvent, QUndoStack
 
 from improved_aiv_editor.tools.base_tool import BaseTool
-from improved_aiv_editor.models.commands import PlaceBuildingCommand
+from improved_aiv_editor.models.commands import PlaceBuildingCommand, DeletePositionsCommand
+from improved_aiv_editor.models.building_registry import get_overridable_kinds
 from improved_aiv_editor.views.map_canvas import TILE_SIZE, MapScene, MapCanvas
 
 if TYPE_CHECKING:
@@ -67,6 +68,22 @@ class PlaceTool(BaseTool):
             ]
         else:
             positions = [(tx, ty)]
+
+        overridable = get_overridable_kinds(bdef)
+        if overridable:
+            footprint_tiles = [(tx + dx, ty + dy) for dx, dy in bdef.footprint_offsets()]
+            removals = self._document.tile_grid.find_overlapping_positions(
+                footprint_tiles, overridable,
+            )
+            if removals:
+                self._undo_stack.beginMacro("Place Building (override)")
+                self._undo_stack.push(
+                    DeletePositionsCommand(self._document, removals)
+                )
+                self._undo_stack.push(PlaceBuildingCommand(self._document, ft, positions))
+                self._undo_stack.endMacro()
+                return
+
         cmd = PlaceBuildingCommand(self._document, ft, positions)
         self._undo_stack.push(cmd)
 

@@ -107,14 +107,41 @@ class TileGrid:
     def has_keep(self) -> bool:
         return self._keep_frame_count > 0
 
-    def is_origin_occupied(self, tx: int, ty: int, exclude_units: bool = True) -> bool:
+    def is_origin_occupied(
+        self,
+        tx: int,
+        ty: int,
+        exclude_units: bool = True,
+        overridable_kinds: frozenset[str] | None = None,
+    ) -> bool:
         if not (1 <= tx <= MAP_SIZE and 1 <= ty <= MAP_SIZE):
             return True
         for o in self._cells[ty - 1][tx - 1]:
             if exclude_units and o.kind == "unit":
                 continue
+            if overridable_kinds and o.kind in overridable_kinds:
+                continue
             return True
         return False
+
+    def find_overlapping_positions(
+        self,
+        tiles: list[tuple[int, int]],
+        target_kinds: frozenset[str],
+    ) -> dict[int, set[int]]:
+        """Collect positions of *target_kinds* occupants that overlap *tiles*.
+
+        Returns a mapping of frame_id -> set of pos_indices suitable for
+        ``AivDocument.remove_positions``.
+        """
+        result: dict[int, set[int]] = {}
+        for tx, ty in tiles:
+            if not (1 <= tx <= MAP_SIZE and 1 <= ty <= MAP_SIZE):
+                continue
+            for occ in self._cells[ty - 1][tx - 1]:
+                if occ.kind in target_kinds:
+                    result.setdefault(occ.frame_id, set()).add(occ.pos_index)
+        return result
 
     def top_occupant_at(
         self, tx: int, ty: int, order_of: dict[int, int],

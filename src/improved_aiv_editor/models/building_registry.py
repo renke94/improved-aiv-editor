@@ -20,6 +20,23 @@ class SpecialShapeRect:
     h: int
 
 
+TOWER_IDS: frozenset[int] = frozenset({110, 111, 112, 113, 114})
+GATEHOUSE_KINDS: frozenset[str] = frozenset({"gatehouse-ew", "gatehouse-ns"})
+DRAWBRIDGE_ID: int = 105
+
+
+def get_overridable_kinds(bdef: "BuildingDef") -> frozenset[str]:
+    """Return occupant kinds this building is allowed to replace on placement.
+
+    Towers and gatehouses override walls; drawbridges override moat.
+    """
+    if bdef.id in TOWER_IDS or bdef.kind in GATEHOUSE_KINDS:
+        return frozenset({"wall"})
+    if bdef.id == DRAWBRIDGE_ID:
+        return frozenset({"moat"})
+    return frozenset()
+
+
 @dataclass
 class BuildingDef:
     id: int

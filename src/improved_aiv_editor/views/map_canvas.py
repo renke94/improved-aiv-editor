@@ -527,9 +527,17 @@ class MapScene(QGraphicsScene):
             return False
         return self._document.tile_grid.has_keep()
 
-    def is_placement_valid(self, item_type: int, tx: int, ty: int) -> bool:
+    def is_placement_valid(
+        self,
+        item_type: int,
+        tx: int,
+        ty: int,
+        overridable_kinds: frozenset[str] | None = None,
+    ) -> bool:
         """Check whether origin (tx, ty) is free. Units skip the check entirely.
-        Only one keep (item_type 61) is allowed at a time."""
+        Only one keep (item_type 61) is allowed at a time.
+        Tiles occupied solely by *overridable_kinds* are considered free.
+        """
         bdef = self._registry.get_by_id(item_type)
         if bdef is None:
             return False
@@ -539,16 +547,25 @@ class MapScene(QGraphicsScene):
             return True
         if self._document is None:
             return False
-        return not self._document.tile_grid.is_origin_occupied(tx, ty, exclude_units=True)
+        return not self._document.tile_grid.is_origin_occupied(
+            tx, ty, exclude_units=True, overridable_kinds=overridable_kinds,
+        )
 
     def can_place_building(self, bdef: "BuildingDef", tx: int, ty: int) -> bool:
-        """Full footprint check: every tile the building covers must be free."""
+        """Full footprint check: every tile the building covers must be free.
+
+        Tiles occupied only by overridable kinds (e.g. walls under towers)
+        are treated as free.
+        """
+        from improved_aiv_editor.models.building_registry import get_overridable_kinds
+
         item_type = bdef.file_item_type()
+        overridable = get_overridable_kinds(bdef) or None
         for dx, dy in bdef.footprint_offsets():
             nx, ny = tx + dx, ty + dy
             if nx < 1 or nx > MAP_SIZE or ny < 1 or ny > MAP_SIZE:
                 return False
-            if not self.is_placement_valid(item_type, nx, ny):
+            if not self.is_placement_valid(item_type, nx, ny, overridable):
                 return False
         return True
 
