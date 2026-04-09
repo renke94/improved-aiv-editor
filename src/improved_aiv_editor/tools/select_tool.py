@@ -15,7 +15,7 @@ from improved_aiv_editor.models.commands import (
 )
 from improved_aiv_editor.views.map_canvas import (
     BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem,
-    TILE_SIZE, MapScene, MapCanvas,
+    TILE_SIZE, MAP_SIZE, MapScene, MapCanvas,
 )
 
 if TYPE_CHECKING:
@@ -40,6 +40,8 @@ class SelectTool(BaseTool):
 
         self._clone_drag: bool = False
         self._clone_ghosts: list[QGraphicsItem] = []
+        self._drag_valid: bool = True
+        self._original_styles: list[tuple[QBrush, QPen]] = []
 
         self._rubber_origin: Optional[QPointF] = None
         self._rubber_additive: bool = False
@@ -71,6 +73,9 @@ class SelectTool(BaseTool):
             ghost.setZValue(15000)
             self._scene.addItem(ghost)
             self._clone_ghosts.append(ghost)
+        self._original_styles = [
+            (QBrush(g.brush()), QPen(g.pen())) for g in self._clone_ghosts
+        ]
 
     def _clear_clone_ghosts(self) -> None:
         for ghost in self._clone_ghosts:
@@ -98,6 +103,28 @@ class SelectTool(BaseTool):
         else:
             self._rubber_item.setRect(rect)
 
+    def _check_move_collision(self, dtx: int, dty: int, exclude_moving: bool) -> bool:
+        """Return True if the delta move is free of collisions.
+
+        *exclude_moving* should be True for normal moves (the dragged items
+        vacate their old tiles) and False for clone (originals stay).
+        """
+        grid = self._document.tile_grid
+        exclude = (
+            frozenset(item.frame_id for item in self._drag_items)
+            if exclude_moving else frozenset()
+        )
+        for item in self._drag_items:
+            new_tx = item.tile_x + dtx
+            new_ty = item.tile_y + dty
+            for dx, dy in item.building_def.footprint_offsets():
+                nx, ny = new_tx + dx, new_ty + dy
+                if nx < 1 or nx > MAP_SIZE or ny < 1 or ny > MAP_SIZE:
+                    return False
+                if grid.is_occupied_excluding(nx, ny, exclude):
+                    return False
+        return True
+
     def on_press(self, scene_pos: QPointF, event: QMouseEvent) -> None:
         if event.button() != Qt.MouseButton.LeftButton:
             return
@@ -119,6 +146,10 @@ class SelectTool(BaseTool):
                 i for i in self._scene.selectedItems()
                 if isinstance(i, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem))
             ]
+            self._original_styles = [
+                (QBrush(i.brush()), QPen(i.pen())) for i in self._drag_items
+                if isinstance(i, QGraphicsRectItem)
+            ]
             if self._clone_drag:
                 self._create_clone_ghosts()
         else:
@@ -132,10 +163,43 @@ class SelectTool(BaseTool):
             self._rubber_origin = QPointF(scene_pos)
             self._update_rubber_band(scene_pos)
 
+    _VALID_TINT = QColor(100, 200, 100, 60)
+    _INVALID_TINT = QColor(220, 60, 60, 90)
+    _INVALID_PEN = QPen(QColor(220, 60, 60, 180), 1.5, Qt.PenStyle.DashLine)
+
+    def _update_drag_tint(self, valid: bool) -> None:
+        """Overlay a validity tint on the dragged items or clone ghosts."""
+        if valid == self._drag_valid:
+            return
+        self._drag_valid = valid
+        targets: list[QGraphicsRectItem] = [
+            t for t in (self._clone_ghosts if self._clone_ghosts else self._drag_items)
+            if isinstance(t, QGraphicsRectItem)
+        ]
+        for idx, t in enumerate(targets):
+            if valid and idx < len(self._original_styles):
+                t.setBrush(self._original_styles[idx][0])
+                t.setPen(self._original_styles[idx][1])
+            elif not valid:
+                t.setBrush(QBrush(self._INVALID_TINT))
+                t.setPen(self._INVALID_PEN)
+
     def on_move(self, scene_pos: QPointF, event: QMouseEvent) -> None:
         if self._dragging and self._drag_start is not None:
             dx = scene_pos.x() - self._drag_start.x()
             dy = scene_pos.y() - self._drag_start.y()
+
+            end_tile = self._scene.scene_to_tile(scene_pos)
+            dtx = end_tile[0] - self._drag_start_tile[0]  # type: ignore[index]
+            dty = end_tile[1] - self._drag_start_tile[1]  # type: ignore[index]
+            is_clone = bool(self._clone_ghosts) or bool(
+                event.modifiers() & Qt.KeyboardModifier.AltModifier
+            )
+            valid = (dtx == 0 and dty == 0) or self._check_move_collision(
+                dtx, dty, exclude_moving=not is_clone,
+            )
+            self._update_drag_tint(valid)
+
             if self._clone_ghosts:
                 for ghost, item in zip(self._clone_ghosts, self._drag_items):
                     ghost.setPos(
@@ -168,20 +232,20 @@ class SelectTool(BaseTool):
                 event.modifiers() & Qt.KeyboardModifier.AltModifier
             )
 
-            if dtx != 0 or dty != 0:
+            can_place = (dtx != 0 or dty != 0) and self._check_move_collision(
+                dtx, dty, exclude_moving=not clone,
+            )
+
+            if can_place:
                 if clone:
                     self._finish_clone_drag(dtx, dty)
                 else:
                     moves: list[tuple[int, int, int, int]] = []
                     for item in self._drag_items:
                         moves.append((item.frame_id, item.pos_index, dtx, dty))
-
                     if moves:
                         cmd = MoveBuildingsCommand(self._document, moves)
                         self._undo_stack.push(cmd)
-                    else:
-                        for item in self._drag_items:
-                            item.setPos(item.tile_x * TILE_SIZE, item.tile_y * TILE_SIZE)
             else:
                 for item in self._drag_items:
                     item.setPos(item.tile_x * TILE_SIZE, item.tile_y * TILE_SIZE)
@@ -189,6 +253,8 @@ class SelectTool(BaseTool):
             self._clear_clone_ghosts()
             self._dragging = False
             self._clone_drag = False
+            self._drag_valid = True
+            self._original_styles.clear()
             self._drag_start = None
             self._drag_items = []
             self._drag_start_tile = None

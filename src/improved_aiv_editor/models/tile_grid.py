@@ -124,6 +124,23 @@ class TileGrid:
             return True
         return False
 
+    def is_occupied_excluding(
+        self,
+        tx: int,
+        ty: int,
+        exclude_fids: frozenset[int],
+    ) -> bool:
+        """True if tile is occupied by a non-unit building not in *exclude_fids*."""
+        if not (1 <= tx <= MAP_SIZE and 1 <= ty <= MAP_SIZE):
+            return True
+        for o in self._cells[ty - 1][tx - 1]:
+            if o.kind == "unit":
+                continue
+            if o.frame_id in exclude_fids:
+                continue
+            return True
+        return False
+
     def find_overlapping_positions(
         self,
         tiles: list[tuple[int, int]],
