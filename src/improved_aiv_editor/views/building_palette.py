@@ -122,6 +122,8 @@ class BuildingPalette(QWidget):
         building_id = item.data(0, Qt.ItemDataRole.UserRole)
         if building_id is not None:
             self.building_selected.emit(building_id)
+        elif item.childCount() > 0:
+            item.setExpanded(not item.isExpanded())
 
     def refresh_language(self) -> None:
         self._search.setPlaceholderText(tr("Search buildings..."))
