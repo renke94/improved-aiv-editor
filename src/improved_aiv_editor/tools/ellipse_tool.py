@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import QGraphicsEllipseItem
 
 from improved_aiv_editor.tools.base_tool import BaseTool
 from improved_aiv_editor.models.commands import PlaceBuildingCommand
-from improved_aiv_editor.utils.tile_line import midpoint_ellipse
+from improved_aiv_editor.utils.tile_line import filled_ellipse_ring
 from improved_aiv_editor.views.map_canvas import TILE_SIZE, MAP_SIZE, MapScene, MapCanvas
 
 if TYPE_CHECKING:
@@ -36,11 +36,16 @@ class EllipseTool(BaseTool):
     ) -> None:
         super().__init__(scene, canvas, document, registry, undo_stack)
         self._building_def: Optional["BuildingDef"] = None
+        self._thickness: int = 1
         self._start_tile: Optional[tuple[int, int]] = None
         self._preview: Optional[QGraphicsEllipseItem] = None
+        self._preview_inner: Optional[QGraphicsEllipseItem] = None
 
     def set_building(self, building_id: int) -> None:
         self._building_def = self._registry.get_by_id(building_id)
+
+    def set_thickness(self, thickness: int) -> None:
+        self._thickness = max(1, thickness)
 
     @property
     def building_def(self) -> Optional["BuildingDef"]:
@@ -77,6 +82,7 @@ class EllipseTool(BaseTool):
         end = self._scene.scene_to_tile(scene_pos)
         cx, cy, rx, ry = self._ellipse_params(end, event)
         self._update_preview(cx, cy, rx, ry)
+        self._update_inner_preview(cx, cy, rx, ry)
 
     def on_release(self, scene_pos: QPointF, event: QMouseEvent) -> None:
         if event.button() != Qt.MouseButton.LeftButton:
@@ -93,7 +99,7 @@ class EllipseTool(BaseTool):
         if rx == 0 and ry == 0:
             return
 
-        raw = midpoint_ellipse(cx, cy, rx, ry)
+        raw = filled_ellipse_ring(cx, cy, rx, ry, self._thickness)
         ft = self._building_def.file_item_type()
         positions = [
             (px, py) for px, py in raw
@@ -146,7 +152,34 @@ class EllipseTool(BaseTool):
             (2 * ry + 1) * TILE_SIZE,
         )
 
+    def _update_inner_preview(self, cx: int, cy: int, rx: int, ry: int) -> None:
+        inner_offset = self._thickness - 1
+        irx = rx - inner_offset
+        iry = ry - inner_offset
+        if inner_offset <= 0 or irx < 0 or iry < 0:
+            if self._preview_inner is not None:
+                self._scene.removeItem(self._preview_inner)
+                self._preview_inner = None
+            return
+        if self._preview_inner is None:
+            self._preview_inner = QGraphicsEllipseItem()
+            self._preview_inner.setPen(
+                QPen(QColor(140, 140, 140, 120), 1.0, Qt.PenStyle.DotLine)
+            )
+            self._preview_inner.setBrush(QBrush(Qt.BrushStyle.NoBrush))
+            self._preview_inner.setZValue(10000)
+            self._scene.addItem(self._preview_inner)
+        self._preview_inner.setRect(
+            (cx - irx) * TILE_SIZE,
+            (cy - iry) * TILE_SIZE,
+            (2 * irx + 1) * TILE_SIZE,
+            (2 * iry + 1) * TILE_SIZE,
+        )
+
     def _clear_preview(self) -> None:
         if self._preview is not None:
             self._scene.removeItem(self._preview)
             self._preview = None
+        if self._preview_inner is not None:
+            self._scene.removeItem(self._preview_inner)
+            self._preview_inner = None

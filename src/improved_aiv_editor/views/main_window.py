@@ -10,7 +10,7 @@ from PyQt6.QtGui import QAction, QKeySequence, QUndoStack, QIcon, QActionGroup
 from PyQt6.QtWidgets import (
     QMainWindow, QDockWidget, QToolBar, QStatusBar,
     QFileDialog, QMessageBox, QLabel, QComboBox,
-    QApplication, QUndoView,
+    QApplication, QUndoView, QSpinBox,
 )
 
 from improved_aiv_editor.i18n import tr, get_language, set_language
@@ -186,8 +186,8 @@ class MainWindow(QMainWindow):
         self._act_place_tool.triggered.connect(lambda: self._activate_tool("place"))
         tools_menu.addAction(self._act_place_tool)
 
-        self._act_wall_tool = QAction(tr("&Wall"), self)
-        self._act_wall_tool.setShortcut(QKeySequence("W"))
+        self._act_wall_tool = QAction(tr("&Line"), self)
+        self._act_wall_tool.setShortcut(QKeySequence("L"))
         self._act_wall_tool.setCheckable(True)
         self._act_wall_tool.triggered.connect(lambda: self._activate_tool("wall"))
         tools_menu.addAction(self._act_wall_tool)
@@ -247,9 +247,20 @@ class MainWindow(QMainWindow):
             display = wname_de if get_language() == "de" else wname_en
             self._wall_type_combo.addItem(display, wid)
         self._wall_type_combo.currentIndexChanged.connect(self._on_wall_type_changed)
-        self._wall_label = QLabel(tr(" Wall: "))
+        self._wall_label = QLabel(tr(" Type: "))
         toolbar.addWidget(self._wall_label)
         toolbar.addWidget(self._wall_type_combo)
+
+        toolbar.addSeparator()
+
+        self._thickness_label = QLabel(tr(" Thickness: "))
+        toolbar.addWidget(self._thickness_label)
+        self._thickness_spin = QSpinBox()
+        self._thickness_spin.setRange(1, 10)
+        self._thickness_spin.setValue(1)
+        self._thickness_spin.setToolTip(tr("Line / outline thickness in tiles"))
+        self._thickness_spin.valueChanged.connect(self._on_thickness_changed)
+        toolbar.addWidget(self._thickness_spin)
 
     def _setup_statusbar(self) -> None:
         self._statusbar = QStatusBar()
@@ -507,22 +518,30 @@ class MainWindow(QMainWindow):
             return
 
         ellipse_active = isinstance(self._current_tool, EllipseTool)
+        line_active = isinstance(self._current_tool, WallTool)
 
         if bdef.kind == "wall":
             if ellipse_active:
+                self._current_tool.set_building(building_id)  # type: ignore[union-attr]
+            elif line_active:
                 self._current_tool.set_building(building_id)  # type: ignore[union-attr]
             else:
                 self._activate_tool("wall")
                 wall_tool = self._tools.get("wall")
                 if isinstance(wall_tool, WallTool):
-                    wall_tool.set_wall_type(building_id)
+                    wall_tool.set_building(building_id)
             ellipse = self._tools.get("ellipse")
             if isinstance(ellipse, EllipseTool):
                 ellipse.set_building(building_id)
+            line = self._tools.get("wall")
+            if isinstance(line, WallTool):
+                line.set_building(building_id)
             return
 
         if bdef.kind == "moat":
             if ellipse_active:
+                self._current_tool.set_building(building_id)  # type: ignore[union-attr]
+            elif line_active:
                 self._current_tool.set_building(building_id)  # type: ignore[union-attr]
             else:
                 self._activate_tool("moat_brush")
@@ -532,6 +551,9 @@ class MainWindow(QMainWindow):
             ellipse = self._tools.get("ellipse")
             if isinstance(ellipse, EllipseTool):
                 ellipse.set_building(building_id)
+            line = self._tools.get("wall")
+            if isinstance(line, WallTool):
+                line.set_building(building_id)
             return
 
         self._activate_tool("place")
@@ -590,10 +612,18 @@ class MainWindow(QMainWindow):
         if wall_id is not None:
             wall_tool = self._tools.get("wall")
             if isinstance(wall_tool, WallTool):
-                wall_tool.set_wall_type(wall_id)
+                wall_tool.set_building(wall_id)
             ellipse = self._tools.get("ellipse")
-            if isinstance(ellipse, EllipseTool) and isinstance(self._current_tool, EllipseTool):
+            if isinstance(ellipse, EllipseTool):
                 ellipse.set_building(wall_id)
+
+    def _on_thickness_changed(self, value: int) -> None:
+        wall_tool = self._tools.get("wall")
+        if isinstance(wall_tool, WallTool):
+            wall_tool.set_thickness(value)
+        ellipse = self._tools.get("ellipse")
+        if isinstance(ellipse, EllipseTool):
+            ellipse.set_thickness(value)
 
     def _select_all(self) -> None:
         for item in self._scene._building_items:

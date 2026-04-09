@@ -1,4 +1,4 @@
-"""Wall drawing tool for placing wall segments along a line."""
+"""Line drawing tool for placing walls or moat along a straight line."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ from PyQt6.QtWidgets import QGraphicsLineItem
 
 from improved_aiv_editor.tools.base_tool import BaseTool
 from improved_aiv_editor.models.commands import PlaceBuildingCommand
-from improved_aiv_editor.utils.tile_line import bresenham_line
-from improved_aiv_editor.views.map_canvas import TILE_SIZE, MapScene, MapCanvas
+from improved_aiv_editor.utils.tile_line import bresenham_line, thicken_points
+from improved_aiv_editor.views.map_canvas import TILE_SIZE, MAP_SIZE, MapScene, MapCanvas
 
 if TYPE_CHECKING:
     from improved_aiv_editor.models.aiv_document import AivDocument
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 
 class WallTool(BaseTool):
-    """Draw walls in a line: click start, drag to end."""
+    """Draw walls or moat in a straight line: click start, drag to end."""
 
     def __init__(
         self,
@@ -30,12 +30,19 @@ class WallTool(BaseTool):
         undo_stack: QUndoStack,
     ) -> None:
         super().__init__(scene, canvas, document, registry, undo_stack)
-        self._wall_type_id: int = 25
+        self._building_id: int = 25
+        self._thickness: int = 1
         self._start_tile: Optional[tuple[int, int]] = None
         self._preview_line: Optional[QGraphicsLineItem] = None
 
     def set_wall_type(self, wall_type_id: int) -> None:
-        self._wall_type_id = wall_type_id
+        self._building_id = wall_type_id
+
+    def set_building(self, building_id: int) -> None:
+        self._building_id = building_id
+
+    def set_thickness(self, thickness: int) -> None:
+        self._thickness = max(1, thickness)
 
     def activate(self) -> None:
         self._canvas.setCursor(Qt.CursorShape.CrossCursor)
@@ -53,8 +60,9 @@ class WallTool(BaseTool):
         sx, sy = self._start_tile
         start_x = (sx + 0.5) * TILE_SIZE
         start_y = (sy + 0.5) * TILE_SIZE
+        pen_width = max(2.0, self._thickness * TILE_SIZE * 0.8)
         self._preview_line = QGraphicsLineItem(start_x, start_y, start_x, start_y)
-        self._preview_line.setPen(QPen(QColor(140, 140, 140, 180), 2.0, Qt.PenStyle.DashLine))
+        self._preview_line.setPen(QPen(QColor(140, 140, 140, 180), pen_width, Qt.PenStyle.DashLine))
         self._preview_line.setZValue(10000)
         self._scene.addItem(self._preview_line)
 
@@ -77,20 +85,22 @@ class WallTool(BaseTool):
             return
 
         end_tile = self._scene.scene_to_tile(scene_pos)
-        positions = bresenham_line(
+        center_line = bresenham_line(
             self._start_tile[0], self._start_tile[1],
             end_tile[0], end_tile[1],
         )
+        positions = thicken_points(center_line, self._thickness)
 
-        occupied = self._scene.get_occupied_origins()
-        positions = [p for p in positions if p not in occupied]
+        bdef = self._registry.get_by_id(self._building_id)
+        ft = bdef.file_item_type() if bdef else self._building_id
+        positions = [
+            (px, py) for px, py in positions
+            if 1 <= px <= MAP_SIZE and 1 <= py <= MAP_SIZE
+            and self._scene.is_placement_valid(ft, px, py)
+        ]
 
         if positions:
-            cmd = PlaceBuildingCommand(
-                self._document,
-                self._wall_type_id,
-                positions,
-            )
+            cmd = PlaceBuildingCommand(self._document, ft, positions)
             self._undo_stack.push(cmd)
 
         self._start_tile = None
