@@ -143,13 +143,20 @@ class MainWindow(QMainWindow):
 
         edit_menu = menubar.addMenu(tr("&Edit"))
 
-        undo_action = self._undo_stack.createUndoAction(self, tr("&Undo"))
-        undo_action.setShortcut(QKeySequence.StandardKey.Undo)
-        edit_menu.addAction(undo_action)
+        if hasattr(self, "_undo_action") and self._undo_action is not None:
+            self.removeAction(self._undo_action)
+        if hasattr(self, "_redo_action") and self._redo_action is not None:
+            self.removeAction(self._redo_action)
 
-        redo_action = self._undo_stack.createRedoAction(self, tr("&Redo"))
-        redo_action.setShortcut(QKeySequence.StandardKey.Redo)
-        edit_menu.addAction(redo_action)
+        self._undo_action = self._undo_stack.createUndoAction(self, tr("&Undo"))
+        self._undo_action.setShortcut(QKeySequence.StandardKey.Undo)
+        edit_menu.addAction(self._undo_action)
+        self.addAction(self._undo_action)
+
+        self._redo_action = self._undo_stack.createRedoAction(self, tr("&Redo"))
+        self._redo_action.setShortcut(QKeySequence.StandardKey.Redo)
+        edit_menu.addAction(self._redo_action)
+        self.addAction(self._redo_action)
 
         edit_menu.addSeparator()
 
