@@ -24,6 +24,7 @@ from improved_aiv_editor.tools.select_tool import SelectTool
 from improved_aiv_editor.tools.place_tool import PlaceTool
 from improved_aiv_editor.tools.wall_tool import WallTool
 from improved_aiv_editor.tools.moat_pitch_brush_tool import MoatPitchBrushTool
+from improved_aiv_editor.tools.ellipse_tool import EllipseTool
 from improved_aiv_editor.tools.base_tool import BaseTool
 
 
@@ -191,10 +192,17 @@ class MainWindow(QMainWindow):
         self._act_wall_tool.triggered.connect(lambda: self._activate_tool("wall"))
         tools_menu.addAction(self._act_wall_tool)
 
+        self._act_ellipse_tool = QAction(tr("&Ellipse / Circle"), self)
+        self._act_ellipse_tool.setShortcut(QKeySequence("E"))
+        self._act_ellipse_tool.setCheckable(True)
+        self._act_ellipse_tool.triggered.connect(lambda: self._activate_tool("ellipse"))
+        tools_menu.addAction(self._act_ellipse_tool)
+
         self._tool_actions = {
             "select": self._act_select_tool,
             "place": self._act_place_tool,
             "wall": self._act_wall_tool,
+            "ellipse": self._act_ellipse_tool,
         }
 
         lang_menu = menubar.addMenu(tr("Language"))
@@ -224,6 +232,7 @@ class MainWindow(QMainWindow):
         toolbar.addAction(self._act_select_tool)
         toolbar.addAction(self._act_place_tool)
         toolbar.addAction(self._act_wall_tool)
+        toolbar.addAction(self._act_ellipse_tool)
 
         toolbar.addSeparator()
 
@@ -460,6 +469,10 @@ class MainWindow(QMainWindow):
                 self._scene, self._canvas, self._document,
                 self._registry, self._undo_stack,
             ),
+            "ellipse": EllipseTool(
+                self._scene, self._canvas, self._document,
+                self._registry, self._undo_stack,
+            ),
         }
 
     def _activate_tool(self, name: str) -> None:
@@ -493,18 +506,32 @@ class MainWindow(QMainWindow):
         if bdef is None:
             return
 
+        ellipse_active = isinstance(self._current_tool, EllipseTool)
+
         if bdef.kind == "wall":
-            self._activate_tool("wall")
-            wall_tool = self._tools.get("wall")
-            if isinstance(wall_tool, WallTool):
-                wall_tool.set_wall_type(building_id)
+            if ellipse_active:
+                self._current_tool.set_building(building_id)  # type: ignore[union-attr]
+            else:
+                self._activate_tool("wall")
+                wall_tool = self._tools.get("wall")
+                if isinstance(wall_tool, WallTool):
+                    wall_tool.set_wall_type(building_id)
+            ellipse = self._tools.get("ellipse")
+            if isinstance(ellipse, EllipseTool):
+                ellipse.set_building(building_id)
             return
 
         if bdef.kind == "moat":
-            self._activate_tool("moat_brush")
-            brush = self._tools.get("moat_brush")
-            if isinstance(brush, MoatPitchBrushTool):
-                brush.set_building(building_id)
+            if ellipse_active:
+                self._current_tool.set_building(building_id)  # type: ignore[union-attr]
+            else:
+                self._activate_tool("moat_brush")
+                brush = self._tools.get("moat_brush")
+                if isinstance(brush, MoatPitchBrushTool):
+                    brush.set_building(building_id)
+            ellipse = self._tools.get("ellipse")
+            if isinstance(ellipse, EllipseTool):
+                ellipse.set_building(building_id)
             return
 
         self._activate_tool("place")
@@ -564,6 +591,9 @@ class MainWindow(QMainWindow):
             wall_tool = self._tools.get("wall")
             if isinstance(wall_tool, WallTool):
                 wall_tool.set_wall_type(wall_id)
+            ellipse = self._tools.get("ellipse")
+            if isinstance(ellipse, EllipseTool) and isinstance(self._current_tool, EllipseTool):
+                ellipse.set_building(wall_id)
 
     def _select_all(self) -> None:
         for item in self._scene._building_items:
