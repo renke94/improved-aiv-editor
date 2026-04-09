@@ -135,7 +135,7 @@ class PropertiesPanel(QWidget):
             count = len(self._selected_indices)
             self._lbl_count.setText(str(count))
 
-            frames = [self._document.frames[i] for i in self._selected_indices if i < self._document.frame_count()]
+            frames = [self._document.frame_at(i) for i in self._selected_indices if i < self._document.frame_count()]
             if not frames:
                 return
 

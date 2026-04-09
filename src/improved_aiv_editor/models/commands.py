@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from PyQt6.QtGui import QUndoCommand
 
-from improved_aiv_editor.models.aiv_document import AivDocument, Frame
+from improved_aiv_editor.models.aiv_document import AivDocument, Frame, FramesSnapshot
 
 
 class PlaceBuildingCommand(QUndoCommand):
@@ -18,19 +18,20 @@ class PlaceBuildingCommand(QUndoCommand):
     ) -> None:
         super().__init__("Place Building")
         self._doc = document
-        self._frame = Frame(item_type, list(positions), should_pause)
+        self._frame = Frame(id=-1, item_type=item_type, positions=list(positions), should_pause=should_pause)
         self._requested_index = index
-        self._actual_index: int = -1
+        self._frame_id: int = -1
 
     def redo(self) -> None:
-        self._actual_index = self._doc.add_frame(self._frame, self._requested_index)
+        self._frame_id = self._doc.add_frame(self._frame, self._requested_index)
 
     def undo(self) -> None:
-        self._doc.remove_frame(self._actual_index)
+        order_idx = self._doc.order_of(self._frame_id)
+        self._doc.remove_frame(order_idx)
 
     @property
-    def frame_index(self) -> int:
-        return self._actual_index
+    def frame_id(self) -> int:
+        return self._frame_id
 
 
 class DeleteFramesCommand(QUndoCommand):
@@ -60,18 +61,19 @@ class DeletePositionsCommand(QUndoCommand):
         document: AivDocument,
         removals: dict[int, set[int]],
     ) -> None:
-        """removals: frame_index → set of pos_indices to remove."""
+        """removals: frame_id -> set of pos_indices to remove."""
         super().__init__("Delete Positions")
         self._doc = document
-        self._removals = {fi: set(pis) for fi, pis in removals.items()}
-        self._snapshot_before: list[Frame] = []
+        self._removals = {fid: set(pis) for fid, pis in removals.items()}
+        self._snapshot: FramesSnapshot | None = None
 
     def redo(self) -> None:
-        self._snapshot_before = [f.clone() for f in self._doc.frames]
+        self._snapshot = self._doc.take_snapshot()
         self._doc.remove_positions(self._removals)
 
     def undo(self) -> None:
-        self._doc.restore_frames_snapshot(self._snapshot_before)
+        if self._snapshot is not None:
+            self._doc.restore_snapshot(self._snapshot)
 
 
 class MoveFrameCommand(QUndoCommand):
@@ -96,16 +98,14 @@ class ReorderFramesCommand(QUndoCommand):
         self._doc = document
         self._old_indices = list(old_indices)
         self._new_start = new_start
-        self._snapshot_before: list[Frame] = []
-        self._snapshot_after: list[Frame] = []
+        self._order_before: list[int] = []
 
     def redo(self) -> None:
-        self._snapshot_before = [f.clone() for f in self._doc.frames]
+        self._order_before = self._doc.frame_order
         self._doc.reorder_frames(self._old_indices, self._new_start)
-        self._snapshot_after = [f.clone() for f in self._doc.frames]
 
     def undo(self) -> None:
-        self._doc.restore_frames_snapshot(self._snapshot_before)
+        self._doc.restore_frame_order(self._order_before)
 
 
 class MergeFramesCommand(QUndoCommand):
@@ -113,15 +113,16 @@ class MergeFramesCommand(QUndoCommand):
         super().__init__("Merge Frames")
         self._doc = document
         self._indices = list(indices)
-        self._snapshot_before: list[Frame] = []
+        self._snapshot: FramesSnapshot | None = None
         self._merged_index: int | None = None
 
     def redo(self) -> None:
-        self._snapshot_before = [f.clone() for f in self._doc.frames]
+        self._snapshot = self._doc.take_snapshot()
         self._merged_index = self._doc.merge_frames(self._indices)
 
     def undo(self) -> None:
-        self._doc.restore_frames_snapshot(self._snapshot_before)
+        if self._snapshot is not None:
+            self._doc.restore_snapshot(self._snapshot)
 
 
 class SplitFrameCommand(QUndoCommand):
@@ -129,14 +130,15 @@ class SplitFrameCommand(QUndoCommand):
         super().__init__("Split Frame")
         self._doc = document
         self._index = index
-        self._snapshot_before: list[Frame] = []
+        self._snapshot: FramesSnapshot | None = None
 
     def redo(self) -> None:
-        self._snapshot_before = [f.clone() for f in self._doc.frames]
+        self._snapshot = self._doc.take_snapshot()
         self._doc.split_frame(self._index)
 
     def undo(self) -> None:
-        self._doc.restore_frames_snapshot(self._snapshot_before)
+        if self._snapshot is not None:
+            self._doc.restore_snapshot(self._snapshot)
 
 
 class OffsetPositionsCommand(QUndoCommand):
@@ -162,7 +164,7 @@ class SetShouldPauseCommand(QUndoCommand):
         self._doc = document
         self._index = index
         self._new_value = value
-        self._old_value = document.frames[index].should_pause
+        self._old_value = document.frame_at(index).should_pause
 
     def redo(self) -> None:
         self._doc.set_should_pause(self._index, self._new_value)
@@ -179,7 +181,7 @@ class MoveBuildingsCommand(QUndoCommand):
         document: AivDocument,
         moves: list[tuple[int, int, int, int]],
     ) -> None:
-        """moves: list of (frame_index, position_index_within_frame, dx, dy)"""
+        """moves: list of (frame_id, pos_index, dx, dy)"""
         super().__init__("Move Buildings")
         self._doc = document
         self._moves = list(moves)
@@ -188,5 +190,5 @@ class MoveBuildingsCommand(QUndoCommand):
         self._doc.apply_position_moves(self._moves)
 
     def undo(self) -> None:
-        inv = [(fi, pi, -dx, -dy) for fi, pi, dx, dy in reversed(self._moves)]
+        inv = [(fid, pi, -dx, -dy) for fid, pi, dx, dy in reversed(self._moves)]
         self._doc.apply_position_moves(inv)

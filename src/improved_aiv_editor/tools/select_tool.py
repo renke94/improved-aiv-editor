@@ -129,7 +129,7 @@ class SelectTool(BaseTool):
             if dtx != 0 or dty != 0:
                 moves: list[tuple[int, int, int, int]] = []
                 for item in self._drag_items:
-                    moves.append((item.frame_index, item.pos_index, dtx, dty))
+                    moves.append((item.frame_id, item.pos_index, dtx, dty))
 
                 if moves:
                     cmd = MoveBuildingsCommand(self._document, moves)
@@ -167,16 +167,16 @@ class SelectTool(BaseTool):
 
             selected_by_frame: dict[int, set[int]] = {}
             for item in items:
-                selected_by_frame.setdefault(item.frame_index, set()).add(item.pos_index)
+                selected_by_frame.setdefault(item.frame_id, set()).add(item.pos_index)
 
             full_delete: list[int] = []
             partial_removals: dict[int, set[int]] = {}
-            for fi, pos_indices in selected_by_frame.items():
-                frame = self._document.frames[fi]
+            for fid, pos_indices in selected_by_frame.items():
+                frame = self._document.frame_by_id(fid)
                 if len(pos_indices) >= len(frame.positions):
-                    full_delete.append(fi)
+                    full_delete.append(self._document.order_of(fid))
                 else:
-                    partial_removals[fi] = pos_indices
+                    partial_removals[fid] = pos_indices
 
             if partial_removals and not full_delete:
                 cmd = DeletePositionsCommand(self._document, partial_removals)
@@ -186,9 +186,10 @@ class SelectTool(BaseTool):
                 self._undo_stack.push(cmd)
             elif full_delete or partial_removals:
                 combined = dict(partial_removals)
-                for fi in full_delete:
-                    frame = self._document.frames[fi]
-                    combined[fi] = set(range(len(frame.positions)))
+                for order_idx in full_delete:
+                    fid = self._document.frame_id_at(order_idx)
+                    frame = self._document.frame_by_id(fid)
+                    combined[fid] = set(range(len(frame.positions)))
                 cmd = DeletePositionsCommand(self._document, combined)
                 self._undo_stack.push(cmd)
             event.accept()

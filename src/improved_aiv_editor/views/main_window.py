@@ -521,10 +521,11 @@ class MainWindow(QMainWindow):
             self._scene.clearSelection()
             if self._document is None:
                 return
+            selected_fids = {self._document.frame_id_at(i) for i in indices if i < self._document.frame_count()}
             from improved_aiv_editor.views.map_canvas import BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem
             for item in self._scene._building_items:
                 if isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
-                    if item.frame_index in indices:
+                    if item.frame_id in selected_fids:
                         item.setSelected(True)
         finally:
             self._syncing_from_timeline = False
@@ -532,9 +533,13 @@ class MainWindow(QMainWindow):
     def _on_scene_selection_changed(self) -> None:
         if self._syncing_from_timeline:
             return
+        if self._document is None:
+            return
+        order_of = self._document.order_lookup
         indices = sorted({
-            item.frame_index
+            order_of[item.frame_id]
             for item in self._scene.get_selected_buildings()
+            if item.frame_id in order_of
         })
         self._syncing_from_scene = True
         try:
@@ -546,10 +551,12 @@ class MainWindow(QMainWindow):
     def _on_playback_frame(self, frame_index: int) -> None:
         if self._document is None:
             return
+        order_of = self._document.order_lookup
         for item in self._scene._building_items:
             from improved_aiv_editor.views.map_canvas import BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem
             if isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem)):
-                item.setVisible(item.frame_index <= frame_index)
+                item_order = order_of.get(item.frame_id, 0)
+                item.setVisible(item_order <= frame_index)
 
     def _on_wall_type_changed(self, index: int) -> None:
         wall_id = self._wall_type_combo.currentData()

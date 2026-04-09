@@ -55,18 +55,19 @@ class BuildingGraphicsItem(QGraphicsRectItem):
 
     def __init__(
         self,
-        frame_index: int,
+        frame_id: int,
         pos_index: int,
         building_def: "BuildingDef",
         tile_x: int,
         tile_y: int,
+        order_index: int,
         parent: Optional[QGraphicsItem] = None,
     ) -> None:
         w = building_def.width * TILE_SIZE
         h = building_def.height * TILE_SIZE
         super().__init__(0, 0, w, h, parent)
 
-        self.frame_index = frame_index
+        self.frame_id = frame_id
         self.pos_index = pos_index
         self.building_def = building_def
         self.tile_x = tile_x
@@ -78,7 +79,7 @@ class BuildingGraphicsItem(QGraphicsRectItem):
 
         self.setPos(tile_x * TILE_SIZE, tile_y * TILE_SIZE)
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable, True)
-        self.setZValue(frame_index)
+        self.setZValue(order_index)
 
         self._label = QGraphicsSimpleTextItem(building_def.display_name(), self)
         font = QFont("Helvetica", 6)
@@ -110,18 +111,19 @@ class GatehouseGraphicsItem(QGraphicsRectItem):
 
     def __init__(
         self,
-        frame_index: int,
+        frame_id: int,
         pos_index: int,
         building_def: "BuildingDef",
         tile_x: int,
         tile_y: int,
+        order_index: int,
         parent: Optional[QGraphicsItem] = None,
     ) -> None:
         w = building_def.width * TILE_SIZE
         h = building_def.height * TILE_SIZE
         super().__init__(0, 0, w, h, parent)
 
-        self.frame_index = frame_index
+        self.frame_id = frame_id
         self.pos_index = pos_index
         self.building_def = building_def
         self.tile_x = tile_x
@@ -134,7 +136,7 @@ class GatehouseGraphicsItem(QGraphicsRectItem):
 
         self.setPos(tile_x * TILE_SIZE, tile_y * TILE_SIZE)
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable, True)
-        self.setZValue(frame_index)
+        self.setZValue(order_index)
 
         self._label = QGraphicsSimpleTextItem(building_def.display_name(), self)
         font = QFont("Helvetica", 6)
@@ -217,15 +219,16 @@ class KeepGraphicsItem(QGraphicsPathItem):
 
     def __init__(
         self,
-        frame_index: int,
+        frame_id: int,
         pos_index: int,
         building_def: "BuildingDef",
         tile_x: int,
         tile_y: int,
+        order_index: int,
         parent: Optional[QGraphicsItem] = None,
     ) -> None:
         super().__init__(parent)
-        self.frame_index = frame_index
+        self.frame_id = frame_id
         self.pos_index = pos_index
         self.building_def = building_def
         self.tile_x = tile_x
@@ -236,7 +239,7 @@ class KeepGraphicsItem(QGraphicsPathItem):
         self.setBrush(QBrush(Qt.BrushStyle.NoBrush))
         self.setPos(tile_x * TILE_SIZE, tile_y * TILE_SIZE)
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable, True)
-        self.setZValue(frame_index)
+        self.setZValue(order_index)
 
     def _build_path(self) -> None:
         t = TILE_SIZE
@@ -305,15 +308,16 @@ class WallSegmentItem(QGraphicsRectItem):
 
     def __init__(
         self,
-        frame_index: int,
+        frame_id: int,
         pos_index: int,
         building_def: "BuildingDef",
         tile_x: int,
         tile_y: int,
+        order_index: int,
         parent: Optional[QGraphicsItem] = None,
     ) -> None:
         super().__init__(0, 0, TILE_SIZE, TILE_SIZE, parent)
-        self.frame_index = frame_index
+        self.frame_id = frame_id
         self.pos_index = pos_index
         self.building_def = building_def
         self.tile_x = tile_x
@@ -324,7 +328,7 @@ class WallSegmentItem(QGraphicsRectItem):
         self.setPen(QPen(color.darker(150), 0.5))
         self.setPos(tile_x * TILE_SIZE, tile_y * TILE_SIZE)
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable, True)
-        self.setZValue(frame_index)
+        self.setZValue(order_index)
 
     def paint(self, painter: QPainter, option: object, widget: object = None) -> None:  # type: ignore[override]
         super().paint(painter, option, widget)
@@ -332,6 +336,9 @@ class WallSegmentItem(QGraphicsRectItem):
             painter.setPen(QPen(SELECTION_BORDER, 1.5))
             painter.setBrush(QBrush(SELECTION_COLOR))
             painter.drawRect(self.rect())
+
+
+_BuildingItem = BuildingGraphicsItem | GatehouseGraphicsItem | WallSegmentItem | KeepGraphicsItem
 
 
 class MapScene(QGraphicsScene):
@@ -380,20 +387,18 @@ class MapScene(QGraphicsScene):
 
     def set_document(self, document: Optional["AivDocument"]) -> None:
         if self._document is not None:
-            self._document.frame_inserting.disconnect(self._on_frame_inserting)
             self._document.frame_added.disconnect(self._on_frame_added)
             self._document.frame_removed.disconnect(self._on_frame_removed)
-            self._document.frames_reordered.disconnect(self.rebuild_buildings)
+            self._document.frames_reordered.disconnect(self._on_frames_reordered)
             self._document.frame_positions_changed.disconnect(
                 self._on_frame_positions_changed
             )
             self._document.frames_changed.disconnect(self._on_document_frames_changed)
         self._document = document
         if document is not None:
-            document.frame_inserting.connect(self._on_frame_inserting)
             document.frame_added.connect(self._on_frame_added)
             document.frame_removed.connect(self._on_frame_removed)
-            document.frames_reordered.connect(self.rebuild_buildings)
+            document.frames_reordered.connect(self._on_frames_reordered)
             document.frame_positions_changed.connect(self._on_frame_positions_changed)
             document.frames_changed.connect(self._on_document_frames_changed)
         self.rebuild_buildings()
@@ -403,86 +408,67 @@ class MapScene(QGraphicsScene):
 
     def _make_building_item(
         self,
-        frame_idx: int,
+        frame_id: int,
         pos_idx: int,
         bdef: "BuildingDef",
         tx: int,
         ty: int,
+        order_index: int,
     ) -> QGraphicsItem:
         if bdef.id == 61:
-            return KeepGraphicsItem(frame_idx, pos_idx, bdef, tx, ty)
+            return KeepGraphicsItem(frame_id, pos_idx, bdef, tx, ty, order_index)
         if bdef.kind == "wall":
-            return WallSegmentItem(frame_idx, pos_idx, bdef, tx, ty)
+            return WallSegmentItem(frame_id, pos_idx, bdef, tx, ty, order_index)
         if bdef.kind in ("gatehouse-ns", "gatehouse-ew"):
-            return GatehouseGraphicsItem(frame_idx, pos_idx, bdef, tx, ty)
-        return BuildingGraphicsItem(frame_idx, pos_idx, bdef, tx, ty)
+            return GatehouseGraphicsItem(frame_id, pos_idx, bdef, tx, ty, order_index)
+        return BuildingGraphicsItem(frame_id, pos_idx, bdef, tx, ty, order_index)
 
-    def _add_items_for_frame(self, frame_idx: int, frame: "Frame") -> None:
+    def _add_items_for_frame(self, frame_id: int, frame: "Frame", order_index: int) -> None:
         bdef = self._registry.get_by_id(frame.item_type)
         if bdef is None:
             return
         for pos_idx, (tx, ty) in enumerate(frame.positions):
-            item = self._make_building_item(frame_idx, pos_idx, bdef, tx, ty)
+            item = self._make_building_item(frame_id, pos_idx, bdef, tx, ty, order_index)
             self.addItem(item)
             self._building_items.append(item)
-            self._item_map[(frame_idx, pos_idx)] = item
+            self._item_map[(frame_id, pos_idx)] = item
 
-    def _remove_frame_items(self, frame_index: int) -> None:
-        keys = [k for k in self._item_map if k[0] == frame_index]
+    def _remove_frame_items(self, frame_id: int) -> None:
+        keys = [k for k in self._item_map if k[0] == frame_id]
         for k in keys:
             item = self._item_map.pop(k)
             self.removeItem(item)
             self._building_items.remove(item)
 
-    def _set_item_frame_index(self, item: QGraphicsItem, fi: int) -> None:
-        if isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
-            item.frame_index = fi
-        item.setZValue(fi)
-
-    def _shift_item_frame_indices_ge(self, from_index: int, delta: int) -> None:
-        new_map: dict[tuple[int, int], QGraphicsItem] = {}
-        for (fi, pi), item in list(self._item_map.items()):
-            if fi >= from_index:
-                fi2 = fi + delta
-                self._set_item_frame_index(item, fi2)
-                new_map[(fi2, pi)] = item
-            else:
-                new_map[(fi, pi)] = item
-        self._item_map = new_map
-
-    def _shift_item_frame_indices_gt(self, after_index: int, delta: int) -> None:
-        new_map: dict[tuple[int, int], QGraphicsItem] = {}
-        for (fi, pi), item in list(self._item_map.items()):
-            if fi > after_index:
-                fi2 = fi + delta
-                self._set_item_frame_index(item, fi2)
-                new_map[(fi2, pi)] = item
-            else:
-                new_map[(fi, pi)] = item
-        self._item_map = new_map
-
-    def _on_frame_inserting(self, index: int) -> None:
+    def _on_frame_added(self, frame_id: int) -> None:
         if self._document is None:
             return
-        self._shift_item_frame_indices_ge(index, +1)
+        frame = self._document.frame_by_id(frame_id)
+        order_index = self._document.order_of(frame_id)
+        self._add_items_for_frame(frame_id, frame, order_index)
 
-    def _on_frame_added(self, index: int) -> None:
+    def _on_frame_removed(self, frame_id: int) -> None:
+        self._remove_frame_items(frame_id)
+
+    def _on_frames_reordered(self) -> None:
+        """Update Z-values from the new order without rebuilding items."""
         if self._document is None:
             return
-        frame = self._document.frames[index]
-        self._add_items_for_frame(index, frame)
+        order_of = self._document.order_lookup
+        for item in self._building_items:
+            if isinstance(item, (BuildingGraphicsItem, GatehouseGraphicsItem, WallSegmentItem, KeepGraphicsItem)):
+                new_z = order_of.get(item.frame_id, 0)
+                item.setZValue(new_z)
 
-    def _on_frame_removed(self, index: int) -> None:
-        self._remove_frame_items(index)
-        self._shift_item_frame_indices_gt(index, -1)
-
-    def _on_frame_positions_changed(self, frame_indices: list) -> None:
+    def _on_frame_positions_changed(self, frame_ids: list) -> None:
         if self._document is None:
             return
-        for idx in frame_indices:
-            self._remove_frame_items(int(idx))
-            frame = self._document.frames[int(idx)]
-            self._add_items_for_frame(int(idx), frame)
+        for fid in frame_ids:
+            fid = int(fid)
+            self._remove_frame_items(fid)
+            frame = self._document.frame_by_id(fid)
+            order_index = self._document.order_of(fid)
+            self._add_items_for_frame(fid, frame, order_index)
 
     def rebuild_buildings(self) -> None:
         for item in self._building_items:
@@ -493,8 +479,8 @@ class MapScene(QGraphicsScene):
         if self._document is None:
             return
 
-        for frame_idx, frame in enumerate(self._document.frames):
-            self._add_items_for_frame(frame_idx, frame)
+        for order_idx, frame in enumerate(self._document.frames):
+            self._add_items_for_frame(frame.id, frame, order_idx)
 
     def get_building_at(self, scene_pos: QPointF) -> Optional[QGraphicsItem]:
         """Hit-test using item geometry. Tile grid only stores frame origins for many buildings,

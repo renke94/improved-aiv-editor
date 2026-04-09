@@ -49,16 +49,18 @@ class FrameListModel(QAbstractListModel):
         document.frames_reordered.connect(self._on_frames_reordered)
         document.frames_changed.connect(self._on_frames_changed)
 
-    def _on_frame_inserting(self, index: int) -> None:
+    def _on_frame_inserting(self, frame_id: int) -> None:
+        index = self._doc.order_of(frame_id)
         self.beginInsertRows(QModelIndex(), index, index)
 
-    def _on_frame_inserted(self, index: int) -> None:
+    def _on_frame_inserted(self, frame_id: int) -> None:
         self.endInsertRows()
 
-    def _on_frame_removing(self, index: int) -> None:
+    def _on_frame_removing(self, frame_id: int) -> None:
+        index = self._doc.order_of(frame_id)
         self.beginRemoveRows(QModelIndex(), index, index)
 
-    def _on_frame_removed(self, index: int) -> None:
+    def _on_frame_removed(self, frame_id: int) -> None:
         self.endRemoveRows()
 
     def _on_frames_reordered(self) -> None:
@@ -81,7 +83,7 @@ class FrameListModel(QAbstractListModel):
     def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> object:
         if not index.isValid():
             return None
-        frame = self._doc.frames[index.row()]
+        frame = self._doc.frame_at(index.row())
         bdef = self._registry.get_by_id(frame.item_type)
         name = bdef.display_name() if bdef else f"Unknown ({frame.item_type})"
 
@@ -289,7 +291,7 @@ class TimelinePanel(QWidget):
         indices = self._selected_indices()
         if not indices:
             return
-        keep_indices = [i for i in indices if self._document.frames[i].item_type == 61]
+        keep_indices = [i for i in indices if self._document.frame_at(i).item_type == 61]
         if keep_indices:
             indices = [i for i in indices if i not in keep_indices]
         if not indices:
@@ -347,13 +349,13 @@ class TimelinePanel(QWidget):
         menu = QMenu(self)
 
         if len(indices) >= 2:
-            types = {self._document.frames[i].item_type for i in indices} if self._document else set()
+            types = {self._document.frame_at(i).item_type for i in indices} if self._document else set()
             if len(types) == 1:
                 merge_action = menu.addAction(tr("Merge Frames"))
                 merge_action.triggered.connect(self._on_merge)
 
         if len(indices) == 1 and self._document:
-            frame = self._document.frames[indices[0]]
+            frame = self._document.frame_at(indices[0])
             if len(frame.positions) > 1:
                 split_action = menu.addAction(tr("Split Frame"))
                 split_action.triggered.connect(self._on_split)
@@ -378,7 +380,7 @@ class TimelinePanel(QWidget):
             return
         indices = self._selected_indices()
         for idx in indices:
-            new_val = not self._document.frames[idx].should_pause
+            new_val = not self._document.frame_at(idx).should_pause
             cmd = SetShouldPauseCommand(self._document, idx, new_val)
             self._undo_stack.push(cmd)
 
